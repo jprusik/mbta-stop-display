@@ -1,5 +1,6 @@
 import {Fragment} from 'react';
 import moment from 'moment';
+import styled from '@emotion/styled';
 import {PredictionAttributes, RouteAttributes} from 'types';
 
 type PredictionDisplayProps = {
@@ -31,17 +32,25 @@ export function PredictionDisplay ({
 
   return (
     <Fragment>
-      <h2>
+      <Header>
         {destinationHeaderText}
-      </h2>
-      <div>
+      </Header>
+      <ArrivalDescription>
         {arrivalIsInFuture ? (
           departureTime ?
             arrivalAndDepartureText :
             arrivalOnlyText
           ) : 'is currently unknown' // @TODO use scheduled time
         }
-      </div>
+      </ArrivalDescription>
     </Fragment>
   )
 }
+
+const Header = styled.h2`
+  font-size: 28px;
+`
+const ArrivalDescription = styled.div`
+  margin: 8px auto;
+  font-size: 22px;
+`
