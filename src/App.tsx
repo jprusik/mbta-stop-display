@@ -1,16 +1,31 @@
 import {Fragment, useEffect} from 'react';
 import styled from '@emotion/styled';
 import {DATA_REFETCH_INTERVAL} from './constants';
-import {RouteAttributes, StopAttributes} from 'types';
+import {DataTypes, RouteAttributes, StopAttributes} from 'types';
 import {useRoutePredictions} from './hooks/useRoutePredictions';
-import {PredictionDisplay} from './PredictionDisplay';
+import {useRouteSchedule} from './hooks/useRouteSchedule';
+import {NextArrival} from './NextArrival';
 
 export function App() {
-  const {data: predictionData, error, isLoading, refetch} = useRoutePredictions();
+  const {
+    data: predictionsData,
+    error: predictionsError,
+    isLoading: predictionsAreLoading,
+    refetch: predictionsRefetch
+  } = useRoutePredictions();
+
+  // We need to fetch schedule data separately since it is unavailable as
+  // an include on predictions if no predictions are returned.
+  // For now, we won't refetch the schedule data since it's not likely to change frequently
+  const {
+    data: scheduleData,
+    error: scheduleError,
+    isLoading: scheduleIsLoading
+  } = useRouteSchedule();
 
   // Route data
   const routeData =
-    predictionData?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes;
+    scheduleData?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes;
   const routeColor = routeData?.color ?
     `#${routeData.color}` : 'transparent';
   const routeTextColor = routeData?.text_color ?
@@ -18,25 +33,26 @@ export function App() {
 
   // Stop data
   const stopData =
-    predictionData?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes;
+    scheduleData?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes;
   const stopTitle = `${routeData?.fare_class} (${routeData?.long_name}) at ${stopData?.name}`;
   const stopTitleIsAvailable = !!(routeData?.fare_class && routeData?.long_name && stopData?.name);
 
   // Prediction data
-  const predictionDataIsAvailable = !!predictionData?.data?.length;
+  const predictionDataIsAvailable = !!predictionsData?.data?.length;
 
   // Refresh the data every x ms
   useEffect(() => {
-    const refetchInterval = setInterval(refetch, DATA_REFETCH_INTERVAL);
+    const refetchInterval =
+      setInterval(predictionsRefetch, DATA_REFETCH_INTERVAL);
 
     return () => clearInterval(refetchInterval);
-  }, [refetch]);
+  }, [predictionsRefetch]);
 
   return (
     <Container>
-      {error ?
+      {(predictionsError || scheduleError) ?
         'something went wrong :-(' :
-        isLoading ?
+        (predictionsAreLoading || scheduleIsLoading) ?
           'prediction data is loading...' : (
             <Fragment>
               <Header
@@ -49,15 +65,25 @@ export function App() {
                 }
               </Header>
               {(predictionDataIsAvailable && routeData) ?
-                predictionData?.data?.map(prediction => (
-                  <PredictionDisplay
+                // @TODO only show the next train for each direction (two entries max)
+                predictionsData?.data?.map(prediction => (
+                  <NextArrival
                     key={prediction.id}
-                    prediction={prediction.attributes}
+                    attributes={prediction.attributes}
                     route={routeData}
+                    type={DataTypes.PREDICTION}
                   />
                 )) :
                 'No predictions were found'
               }
+              {/* Placeholder */}
+              {/* {(scheduleData && routeData) && (
+                <NextArrival
+                  attributes={scheduleData.data?.[0]?.attributes}
+                  route={routeData}
+                  type={DataTypes.SCHEDULE}
+                />
+              )} */}
             </Fragment>
           )
       }

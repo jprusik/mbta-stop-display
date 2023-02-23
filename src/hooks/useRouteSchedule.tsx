@@ -1,20 +1,21 @@
 import {useState, useEffect} from 'react';
-import {Prediction} from 'types';
-import {API_KEY, PREDICTIONS_REQUEST_URL} from '../constants';
+import {Schedule, Route, Stop} from 'types';
+import {API_KEY, SCHEDULE_REQUEST_URL} from '../constants';
 
-type PredictionData = {
-  data: Prediction[];
+type ScheduleData = {
+  data: Schedule[];
+  included: Array<Route | Stop>;
 }
 
-type RouteStopPredictionsData = {
-  data?: PredictionData | null;
+type RouteStopScheduleData = {
+  data?: ScheduleData | null;
   error: Error | null;
   isLoading: boolean;
   refetch: () => void;
 }
 
-export function useRoutePredictions (): RouteStopPredictionsData {
-  const [data, setData] = useState<PredictionData | null | undefined>(null);
+export function useRouteSchedule (): RouteStopScheduleData {
+  const [data, setData] = useState<ScheduleData | null | undefined>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -25,7 +26,7 @@ export function useRoutePredictions (): RouteStopPredictionsData {
   }
 
   useEffect(() => {
-    async function getRouteStopPredictions () {
+    async function getRouteStopSchedule () {
 
       const requestOptions = API_KEY ? {
         headers: {
@@ -34,7 +35,7 @@ export function useRoutePredictions (): RouteStopPredictionsData {
       } : {};
 
       const response = await fetch(
-        PREDICTIONS_REQUEST_URL,
+        SCHEDULE_REQUEST_URL,
         requestOptions
       );
 
@@ -45,7 +46,7 @@ export function useRoutePredictions (): RouteStopPredictionsData {
 
     if (!data && !error) {
       try {
-        getRouteStopPredictions();
+        getRouteStopSchedule();
       } catch (error) {
         setError(error as Error);
         setIsLoading(false);

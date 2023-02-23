@@ -1,18 +1,18 @@
-type RelationshipData = {
-  id: string;
-  type: string;
+export enum DataTypes {
+  PREDICTION = 'prediction',
+  ROUTE = 'route',
+  SCHEDULE = 'schedule',
+  STOP = 'stop',
+  TRIP = 'trip',
+  VEHICLE = 'vehicle'
 }
 
-type PredictionRelationships = {
-  route: {
-    data: RelationshipData;
-  },
-  stop: {
-    data: RelationshipData;
-  },
-  trip: {
-    data: RelationshipData;
-  },
+type RelationshipData = {
+  id: string;
+  type: DataTypes;
+}
+
+type PredictionRelationships = ScheduleRelationships & {
   vehicle: {
     data: RelationshipData;
   }
@@ -27,11 +27,40 @@ export type PredictionAttributes = {
   schedule_relationship: string | null; // @TODO string enum
 }
 
+
 export type Prediction = {
   attributes: PredictionAttributes;
   id: string;
   relationships: PredictionRelationships;
-  type: 'prediction';
+  type: DataTypes.PREDICTION;
+}
+
+type ScheduleRelationships = {
+  route: {
+    data: RelationshipData;
+  },
+  stop: {
+    data: RelationshipData;
+  },
+  trip: {
+    data: RelationshipData;
+  }
+}
+
+export type ScheduleAttributes = {
+  arrival_time: string;
+  departure_time: string | null;
+  direction_id: 0 | 1;
+  stop_sequence: number;
+  status: string | null; // @TODO string enum
+  schedule_relationship: string | null; // @TODO string enum
+}
+
+export type Schedule = {
+  attributes: ScheduleAttributes;
+  id: string;
+  relationships: ScheduleRelationships;
+  type: DataTypes.PREDICTION;
 }
 
 export type RouteAttributes = {
@@ -58,7 +87,7 @@ export type Route = {
       data: RelationshipData;
     }
   },
-  type: 'route';
+  type: DataTypes.ROUTE;
 }
 
 export type StopAttributes = {
@@ -94,5 +123,5 @@ export type Stop = {
       data: RelationshipData;
     }
   },
-  type: 'stop';
+  type: DataTypes.STOP;
 }
