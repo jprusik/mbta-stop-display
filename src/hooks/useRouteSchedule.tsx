@@ -1,11 +1,8 @@
 import {useState, useEffect} from 'react';
-import {Schedule, Route, Stop} from 'types';
+import {ScheduleData} from 'types';
 import {API_KEY, SCHEDULE_REQUEST_URL} from '../constants';
 
-type ScheduleData = {
-  data: Schedule[];
-  included: Array<Route | Stop>;
-}
+
 
 type RouteStopScheduleData = {
   data?: ScheduleData | null;

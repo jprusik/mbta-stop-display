@@ -1,10 +1,6 @@
 import {useState, useEffect} from 'react';
-import {Prediction} from 'types';
+import {PredictionData} from 'types';
 import {API_KEY, PREDICTIONS_REQUEST_URL} from '../constants';
-
-type PredictionData = {
-  data: Prediction[];
-}
 
 type RouteStopPredictionsData = {
   data?: PredictionData | null;

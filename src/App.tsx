@@ -1,10 +1,10 @@
 import {Fragment, useEffect} from 'react';
 import styled from '@emotion/styled';
 import {DATA_REFETCH_INTERVAL} from './constants';
-import {DataTypes, RouteAttributes, StopAttributes} from 'types';
+import {RouteAttributes, StopAttributes} from 'types';
 import {useRoutePredictions} from './hooks/useRoutePredictions';
 import {useRouteSchedule} from './hooks/useRouteSchedule';
-import {NextArrival} from './NextArrival';
+import {NextArrivalsContainer} from './NextArrivalsContainer';
 
 export function App() {
   const {
@@ -37,10 +37,7 @@ export function App() {
   const stopTitle = `${routeData?.fare_class} (${routeData?.long_name}) at ${stopData?.name}`;
   const stopTitleIsAvailable = !!(routeData?.fare_class && routeData?.long_name && stopData?.name);
 
-  // Prediction data
-  const predictionDataIsAvailable = !!predictionsData?.data?.length;
-
-  // Refresh the data every x ms
+  // Refresh the predictions data every x ms
   useEffect(() => {
     const refetchInterval =
       setInterval(predictionsRefetch, DATA_REFETCH_INTERVAL);
@@ -64,26 +61,11 @@ export function App() {
                   'The stop information was unable to load.'
                 }
               </Header>
-              {(predictionDataIsAvailable && routeData) ?
-                // @TODO only show the next train for each direction (two entries max)
-                predictionsData?.data?.map(prediction => (
-                  <NextArrival
-                    key={prediction.id}
-                    attributes={prediction.attributes}
-                    route={routeData}
-                    type={DataTypes.PREDICTION}
-                  />
-                )) :
-                'No predictions were found'
-              }
-              {/* Placeholder */}
-              {/* {(scheduleData && routeData) && (
-                <NextArrival
-                  attributes={scheduleData.data?.[0]?.attributes}
-                  route={routeData}
-                  type={DataTypes.SCHEDULE}
-                />
-              )} */}
+              <NextArrivalsContainer
+                predictionsData={predictionsData}
+                routeData={routeData}
+                scheduleData={scheduleData}
+              />
             </Fragment>
           )
       }

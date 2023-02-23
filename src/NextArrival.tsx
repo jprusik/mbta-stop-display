@@ -63,6 +63,9 @@ export function NextArrival ({
         // "Commuter Rail predictions with neither a departure time nor
         // arrival time, often have a status field with their boarding
         // status."
+        // Predictions with none of an arrival time, departure time, nor
+        // status, indicate the vehicle will not make the scheduled stop.
+        // The `schedule_relationship` field may explain why.
         ) : attributes.status || 'is currently unknown'}
       </ArrivalDescription>
     </PredictionContainer>
@@ -70,17 +73,19 @@ export function NextArrival ({
 }
 
 const PredictionContainer = styled.div`
-  max-width: 80%;
-  padding: 15px;
-  background: #3D3D3D;
-  border-radius: 4px;
-  border-color: #FFF;
   margin: 0 auto 20px auto;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  border-color: #666;
+  background: #3D3D3D;
+  padding: 15px;
+  max-width: 80%;
 `;
 
 const Header = styled.h2`
-  font-size: 28px;
   margin: 0;
+  font-size: 28px;
 `
 const ArrivalDescription = styled.div`
   margin: 8px auto;

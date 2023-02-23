@@ -27,12 +27,15 @@ export type PredictionAttributes = {
   schedule_relationship: string | null; // @TODO string enum
 }
 
-
 export type Prediction = {
   attributes: PredictionAttributes;
   id: string;
   relationships: PredictionRelationships;
   type: DataTypes.PREDICTION;
+}
+
+export type PredictionData = {
+  data: Prediction[];
 }
 
 type ScheduleRelationships = {
@@ -61,6 +64,11 @@ export type Schedule = {
   id: string;
   relationships: ScheduleRelationships;
   type: DataTypes.PREDICTION;
+}
+
+export type ScheduleData = {
+  data: Schedule[];
+  included: Array<Route | Stop>;
 }
 
 export type RouteAttributes = {
