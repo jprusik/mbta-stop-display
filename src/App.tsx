@@ -1,28 +1,26 @@
 import {Fragment, useEffect} from 'react';
 import styled from '@emotion/styled';
-import {DATA_REFETCH_INTERVAL, REQUEST_INCLUDES} from './constants';
+import {DATA_REFETCH_INTERVAL} from './constants';
 import {RouteAttributes, StopAttributes} from 'types';
 import {useRoutePredictions} from './hooks/useRoutePredictions';
 import {PredictionDisplay} from './PredictionDisplay';
 
 export function App() {
   const {data: predictionData, error, isLoading, refetch} = useRoutePredictions();
-  console.log('predictionData:', predictionData);
 
   // Route data
-  const routeIncludeDataIndex = REQUEST_INCLUDES.indexOf('route');
   const routeData =
-    predictionData?.included?.[routeIncludeDataIndex]?.attributes as RouteAttributes;
+    predictionData?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes;
   const routeColor = routeData?.color ?
     `#${routeData.color}` : 'transparent';
   const routeTextColor = routeData?.text_color ?
     `#${routeData.text_color}` : 'white';
 
   // Stop data
-  const stopIncludeDataIndex = REQUEST_INCLUDES.indexOf('stop');
   const stopData =
-    predictionData?.included?.[stopIncludeDataIndex]?.attributes as StopAttributes;
+    predictionData?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes;
   const stopTitle = `${routeData?.fare_class} (${routeData?.long_name}) at ${stopData?.name}`;
+  const stopTitleIsAvailable = !!(routeData?.fare_class && routeData?.long_name && stopData?.name);
 
   // Prediction data
   const predictionDataIsAvailable = !!predictionData?.data?.length;
@@ -45,7 +43,10 @@ export function App() {
                 backgroundColor={routeColor}
                 textColor={routeTextColor}
               >
-                {stopTitle}
+                {stopTitleIsAvailable ?
+                  stopTitle :
+                  'The stop information was unable to load.'
+                }
               </Header>
               {(predictionDataIsAvailable && routeData) ?
                 predictionData?.data?.map(prediction => (
