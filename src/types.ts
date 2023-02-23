@@ -44,7 +44,7 @@ export type RouteAttributes = {
   short_name: string; // e.g. "Red" - will have empty string value `""` if no value is otherwise defined.
   sort_order: number;
   text_color: string; // hex value, e.g. "FFFFFF"
-  type: 1 | 2 | 3 | 4; // ex. 2 == "Commuter Rail"
+  type: 0 | 1 | 2 | 3 | 4; // ex. 2 == "Commuter Rail"
 }
 
 export type Route = {
@@ -59,4 +59,40 @@ export type Route = {
     }
   },
   type: 'route';
+}
+
+export type StopAttributes = {
+  address: string | null; // e.g. "Alewife Brook Parkway and Cambridge Park Drive, Cambridge, MA 02140",
+  at_street: string | null; // e.g. "Essex Street",
+  description: string; // e.g. "Alewife - Red Line",
+  latitude: number; // e.g. -71.194994,
+  location_type: 0 | 1 | 2 | 3; // e.g. 0,
+  longitude: number; // e.g. 42.316115,
+  municipality: string; // e.g. "Cambridge",
+  name: string; // e.g. "Parker St @ Hagen Rd",
+  on_street: string | null; // e.g. "Massachusetts Avenue",
+  platform_code: string | null; // e.g. "5",
+  platform_name: string; // e.g. "Red Line",
+  vehicle_type: 0 | 1 | 2 | 3 | 4; // e.g. 3,
+  wheelchair_boarding: 0 | 1 | 2; // e.g. 0,
+}
+
+export type Stop = {
+  attributes: StopAttributes;
+  id: string;
+  links: {
+    self: string;
+  },
+  relationships: {
+    facilities: {
+      data: RelationshipData;
+    },
+    parent_station: {
+      data: RelationshipData;
+    },
+    zone: {
+      data: RelationshipData;
+    }
+  },
+  type: 'stop';
 }

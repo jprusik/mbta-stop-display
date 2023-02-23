@@ -1,20 +1,10 @@
 import {useState, useEffect} from 'react';
-import { Prediction, Route } from 'types';
-
-/*
-Note: using an API key in a public-facing environment will expose it to user clients! If a key is needed for the request, proxy the client request on a backend service.
-
-This configuration presently assumes you're running on a private/trusted network, and accessing via private/trusted clients.
-*/
-const API_KEY = process.env.REACT_APP_API_KEY;
-const ROUTE = process.env.REACT_APP_ROUTE;
-const ROUTE_STOP = process.env.REACT_APP_ROUTE_STOP;
-
-const REQUEST_URL = `https://api-v3.mbta.com/predictions/?filter[route]=${ROUTE}&filter[stop]=${ROUTE_STOP}&include=route&sort=direction_id,arrival_time`;
+import {Prediction, Route, Stop} from 'types';
+import {API_KEY, REQUEST_URL} from '../constants';
 
 type PredictionData = {
   data: Prediction[];
-  included: Route[];
+  included: Array<Route | Stop>;
 }
 
 type RoutePredictionsData = {
