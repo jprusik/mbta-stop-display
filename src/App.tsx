@@ -14,9 +14,12 @@ export function App() {
     refetch: predictionsRefetch
   } = useRoutePredictions();
 
-  // We need to fetch schedule data separately since it is unavailable as
-  // an include on predictions if no predictions are returned.
-  // For now, we won't refetch the schedule data since it's not likely to change frequently
+  /*
+  We need to fetch schedule data separately since it is unavailable
+  as an include on predictions if no predictions are returned. Also,
+  for now we won't refetch the schedule data since it's not likely
+  to change frequently.
+  */
   const {
     data: scheduleData,
     error: scheduleError,

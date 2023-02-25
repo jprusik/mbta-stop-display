@@ -1,5 +1,5 @@
 {
-  "name": "new-app",
+  "name": "mbta-stop-display",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
