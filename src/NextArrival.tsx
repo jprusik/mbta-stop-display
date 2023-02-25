@@ -8,9 +8,9 @@ import {
 } from 'types';
 
 type NextArrivalProps = {
-  attributes: PredictionAttributes | ScheduleAttributes,
-  route: RouteAttributes,
-  type: DataTypes.PREDICTION | DataTypes.SCHEDULE
+  attributes: PredictionAttributes | ScheduleAttributes;
+  route: RouteAttributes;
+  type: DataTypes.PREDICTION | DataTypes.SCHEDULE;
 }
 
 export function NextArrival ({
@@ -41,6 +41,7 @@ export function NextArrival ({
   // @TODO fix vehicle type assumption
   const destinationHeaderText = `The next train to ${routeDestinationName} (${routeDirectionName}):`
 
+  // @TODO update times without data refresh
   // @TODO i18n
   const arrivalAndDepartureText = type === DataTypes.PREDICTION ?
     `The train is expected to arrive ${arrivalTime.fromNow()} and will be leaving ${departureTime.fromNow()}.` :

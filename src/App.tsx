@@ -24,18 +24,20 @@ export function App() {
   } = useRouteSchedule();
 
   // Route data
-  const routeData =
+  const routeAttributes =
     scheduleData?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes;
-  const routeColor = routeData?.color ?
-    `#${routeData.color}` : 'transparent';
-  const routeTextColor = routeData?.text_color ?
-    `#${routeData.text_color}` : 'white';
+  const routeColor = routeAttributes?.color ?
+    `#${routeAttributes.color}` : 'transparent';
+  const routeTextColor = routeAttributes?.text_color ?
+    `#${routeAttributes.text_color}` : 'white';
 
   // Stop data
   const stopData =
     scheduleData?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes;
-  const stopTitle = `${routeData?.fare_class} (${routeData?.long_name}) at ${stopData?.name}`;
-  const stopTitleIsAvailable = !!(routeData?.fare_class && routeData?.long_name && stopData?.name);
+  // @TODO `fare_class` may not be quite the right descriptor for
+  // this purpose; `description` or `type` is probably better.
+  const stopTitle = `${routeAttributes?.fare_class} (${routeAttributes?.long_name}) at ${stopData?.name}`;
+  const stopTitleIsAvailable = !!(routeAttributes?.fare_class && routeAttributes?.long_name && stopData?.name);
 
   // Refresh the predictions data every x ms
   useEffect(() => {
@@ -62,9 +64,9 @@ export function App() {
                 }
               </Header>
               <NextArrivalsContainer
-                predictionsData={predictionsData}
-                routeData={routeData}
-                scheduleData={scheduleData}
+                predictionsData={predictionsData?.data}
+                routeAttributes={routeAttributes}
+                scheduleData={scheduleData?.data}
               />
             </Fragment>
           )

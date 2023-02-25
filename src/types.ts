@@ -55,7 +55,7 @@ export type ScheduleAttributes = {
   departure_time: string | null;
   direction_id: 0 | 1;
   stop_sequence: number;
-  status: string | null; // @TODO string enum
+  status: string | null;
   schedule_relationship: string | null; // @TODO string enum
 }
 
@@ -63,7 +63,7 @@ export type Schedule = {
   attributes: ScheduleAttributes;
   id: string;
   relationships: ScheduleRelationships;
-  type: DataTypes.PREDICTION;
+  type: DataTypes.SCHEDULE;
 }
 
 export type ScheduleData = {
