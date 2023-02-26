@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import {useContext} from 'react';
 import styled from '@emotion/styled';
 import {
   Prediction,
   RouteAttributes,
   Schedule
 } from 'types';
+import {ScheduleContext} from 'contexts/schedule';
 import {NextArrival} from 'NextArrival';
 import {getRelevantTimes} from 'utils';
 
 type NextArrivalsContainerProps = {
   predictionsData: Prediction[] | undefined;
   routeAttributes: RouteAttributes;
-  scheduleData: Schedule[] | undefined;
 }
 
 export function NextArrivalsContainer ({
   predictionsData = [],
-  routeAttributes,
-  scheduleData = []
+  routeAttributes
 }: NextArrivalsContainerProps): JSX.Element {
+  const {data} = useContext(ScheduleContext);
+  const scheduleData = useMemo(() => (data?.data || []), [data.data]);
   const [arrivalData, setArrivalData] =
     useState<Array<Prediction | Schedule>>([]);
 

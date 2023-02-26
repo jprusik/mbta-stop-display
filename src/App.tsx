@@ -1,7 +1,10 @@
+import {ScheduleProvider} from 'contexts/schedule';
 import {Body} from './Body';
 
 export function App() {
   return (
-    <Body />
+    <ScheduleProvider>
+      <Body />
+    </ScheduleProvider>
   );
 }

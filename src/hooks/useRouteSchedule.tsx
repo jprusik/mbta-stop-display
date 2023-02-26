@@ -4,7 +4,7 @@ import {API_KEY, SCHEDULE_REQUEST_URL} from '../constants';
 
 
 
-type RouteStopScheduleData = {
+export type RouteStopScheduleData = {
   data?: ScheduleData | null;
   error: Error | null;
   isLoading: boolean;
