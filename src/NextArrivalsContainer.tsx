@@ -1,10 +1,12 @@
-import moment from 'moment';
+import { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
 import {
   Prediction,
   RouteAttributes,
   Schedule
 } from 'types';
-import {NextArrival} from './NextArrival';
+import {NextArrival} from 'NextArrival';
+import {getRelevantTimes} from 'utils';
 
 type NextArrivalsContainerProps = {
   predictionsData: Prediction[] | undefined;
@@ -12,73 +14,50 @@ type NextArrivalsContainerProps = {
   scheduleData: Schedule[] | undefined;
 }
 
-type RelevantArrivals = {
-  [key: string]: Prediction | Schedule;
-}
-
-function getRelevantTimes (
-  data: Array<Prediction | Schedule>
-): RelevantArrivals {
-  return data
-    .reduce((
-      relevantData,
-      time
-    ) => {
-      // Note: The last stop on a trip will always have a "null"
-      // value for `departure_time` and is not relevant for our
-      // use-case
-      if (!time.attributes.departure_time) {
-        return relevantData;
-      }
-
-      const now = moment();
-      const departureTime = moment(time.attributes.departure_time);
-      const directionId = time.attributes.direction_id;
-
-      if (departureTime.isAfter(now)) {
-        const existingAttributes = relevantData[directionId]?.attributes;
-        const existingDepartureTime = existingAttributes?.departure_time ?
-            moment(existingAttributes.departure_time) :
-            null;
-
-        return (
-          existingDepartureTime &&
-          departureTime.isAfter(existingDepartureTime)
-        ) ?
-          relevantData :
-          {
-            ...relevantData,
-            [directionId]: time
-          }
-      }
-
-      return relevantData;
-    }, {} as RelevantArrivals);
-}
-
 export function NextArrivalsContainer ({
   predictionsData = [],
   routeAttributes,
   scheduleData = []
 }: NextArrivalsContainerProps): JSX.Element {
-  // Prediction data
-  const relevantPredictionsData =
-    getRelevantTimes(predictionsData || []);
+  const [arrivalData, setArrivalData] =
+    useState<Array<Prediction | Schedule>>([]);
 
-  // Schedule data
-  const relevantScheduleData =
-    getRelevantTimes(scheduleData || []);
+  // Refresh the arrival data every x ms so that it always shows
+  // information about the future, even if predictions have gotten
+  // stale and haven't been refreshed yet.
+  useEffect(() => {
+    function updateNewArrivalData () {
+      // Prediction data
+      const relevantPredictionsData =
+        getRelevantTimes(predictionsData || []);
 
-  // Assuming the schedule data will always have all possible
-  // `direction_id` values
-  const arrivalDataKeys: string[] = Object.keys(relevantScheduleData);
-  const arrivalData = arrivalDataKeys.map((directionId) => (
-    relevantPredictionsData[directionId] ||
-    relevantScheduleData[directionId]
-  ));
+      // Schedule data
+      const relevantScheduleData =
+        getRelevantTimes(scheduleData || []);
+
+      // Assuming the schedule data will always have all possible
+      // `direction_id` values
+      const arrivalDataKeys: string[] = Object.keys(relevantScheduleData);
+
+      setArrivalData(
+        arrivalDataKeys.map((directionId) => (
+          relevantPredictionsData[directionId] ||
+          relevantScheduleData[directionId]
+        ))
+      );
+    }
+
+    /*
+    This will have the side effect of causing `NextArrival` components to re-render as well. This is desired here, since `NextArrival` contains presentation "countdowns" which we also want to re-evaluate at this same interval.
+    */
+    const newArrivalDataInterval =
+      setInterval(updateNewArrivalData, 1000);
+
+    return () => clearInterval(newArrivalDataInterval);
+  }, [predictionsData, scheduleData]);
 
   return !!arrivalData.length ? (
-    <div>
+    <ArrivalsContainer>
       {arrivalData.map(arrival => (
         <NextArrival
           key={arrival.id}
@@ -87,8 +66,16 @@ export function NextArrivalsContainer ({
           type={arrival.type}
         />
       ))}
-    </div>
+    </ArrivalsContainer>
   ) : (
-    <div>No arrival information for this stop was found.</div>
+    <ArrivalsContainer>
+      No arrival information for this stop was found.
+    </ArrivalsContainer>
   );
 }
+
+const ArrivalsContainer = styled.div`
+  > div {
+    margin: 20px auto;
+  }
+`;
