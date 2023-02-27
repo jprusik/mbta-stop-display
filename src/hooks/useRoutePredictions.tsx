@@ -22,7 +22,6 @@ export function useRoutePredictions (): RouteStopPredictionsData {
 
   useEffect(() => {
     async function getRouteStopPredictions () {
-
       const requestOptions = API_KEY ? {
         headers: {
           'x-api-key': API_KEY
@@ -37,6 +36,7 @@ export function useRoutePredictions (): RouteStopPredictionsData {
       const responseData = await response.json();
 
       setData(responseData);
+      setIsLoading(false);
     }
 
     if (!data && !error) {
@@ -46,8 +46,6 @@ export function useRoutePredictions (): RouteStopPredictionsData {
         setError(error as Error);
         setIsLoading(false);
       }
-
-      setIsLoading(false);
     }
   }, [data, error, isLoading]);
 

@@ -22,6 +22,11 @@ export function NextArrivalsContainer ({
   const [arrivalData, setArrivalData] =
     useState<Array<Prediction | Schedule>>([]);
 
+  // Loading state here is needed for the period of time before the first
+  // `updateNewArrivalData` interval kicks off.
+  const [arrivalDataIsLoading, setArrivalDataIsLoading] =
+    useState<boolean>(true);
+
   // Refresh the arrival data every x ms so that it always shows
   // information about the future, even if predictions have gotten
   // stale and haven't been refreshed yet.
@@ -45,12 +50,15 @@ export function NextArrivalsContainer ({
           relevantScheduleData[directionId]
         ))
       );
+      setArrivalDataIsLoading(false);
     }
 
     /*
     This will have the side effect of causing `NextArrival` components to re-render as well. This is desired here, since `NextArrival` contains presentation "countdowns" which we also want to re-evaluate at this same interval.
     */
     const newArrivalDataInterval =
+      // Update display data every x ms to avoid passing down data
+      // from more than x ms in the past
       setInterval(updateNewArrivalData, 1000);
 
     return () => clearInterval(newArrivalDataInterval);
@@ -58,6 +66,8 @@ export function NextArrivalsContainer ({
 
   return !!arrivalData.length ? (
     <ArrivalsContainer>
+      {/* Because we have the API return records sorted by
+      `direction_id`, the order of these shouldn't change */}
       {arrivalData.map(arrival => (
         <NextArrival
           key={arrival.id}
@@ -69,7 +79,11 @@ export function NextArrivalsContainer ({
     </ArrivalsContainer>
   ) : (
     <ArrivalsContainer>
-      No arrival information for this stop was found.
+      {arrivalDataIsLoading ? (
+        <div>Arrival information is loading...</div>
+      ) : (
+        <div>No arrival information for this stop was found.</div>
+      )}
     </ArrivalsContainer>
   );
 }

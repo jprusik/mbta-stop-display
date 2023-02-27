@@ -2,8 +2,6 @@ import {useState, useEffect} from 'react';
 import {ScheduleData} from 'types';
 import {API_KEY, SCHEDULE_REQUEST_URL} from '../constants';
 
-
-
 type RouteStopScheduleData = {
   data?: ScheduleData | null;
   error: Error | null;
@@ -24,7 +22,6 @@ export function useRouteSchedule (): RouteStopScheduleData {
 
   useEffect(() => {
     async function getRouteStopSchedule () {
-
       const requestOptions = API_KEY ? {
         headers: {
           'x-api-key': API_KEY
@@ -39,6 +36,7 @@ export function useRouteSchedule (): RouteStopScheduleData {
       const responseData = await response.json();
 
       setData(responseData);
+      setIsLoading(false);
     }
 
     if (!data && !error) {
@@ -48,8 +46,6 @@ export function useRouteSchedule (): RouteStopScheduleData {
         setError(error as Error);
         setIsLoading(false);
       }
-
-      setIsLoading(false);
     }
   }, [data, error, isLoading]);
 
