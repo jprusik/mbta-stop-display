@@ -18,7 +18,7 @@ export function NextArrival ({
   route,
   type
 }: NextArrivalProps): JSX.Element | null {
-  const arrivalText = getArrivalText(attributes, type);
+  const arrivalText = getArrivalText(attributes, type, route.type);
 
   const directionIndex = attributes.direction_id;
   const routeDestinationName = route.direction_destinations[directionIndex];

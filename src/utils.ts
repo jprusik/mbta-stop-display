@@ -4,7 +4,8 @@ import {
   Prediction,
   PredictionAttributes,
   Schedule,
-  ScheduleAttributes
+  ScheduleAttributes,
+  VehicleType
 } from 'types';
 
 type RelevantArrivals = {
@@ -53,7 +54,8 @@ export function getRelevantTimes (
 
 export function getArrivalText (
   attributes: PredictionAttributes | ScheduleAttributes,
-  type: DataTypes.PREDICTION | DataTypes.SCHEDULE
+  type: DataTypes.PREDICTION | DataTypes.SCHEDULE,
+  routeTypeId: VehicleType
 ): string {
   const now = moment();
   const arrivalTime = moment(attributes.arrival_time);
@@ -65,14 +67,15 @@ export function getArrivalText (
   be returned from the API. `departure_time` values not in the future are filtered out upstream.
   */
   const arrivalIsInFuture = arrivalTime.isAfter(now);
+  const routeVehicleName = routeTypeToVehicleNameText(routeTypeId);
 
-  // @TODO i18n, aka: "why we're avoiding string concatenation here"
+  // @TODO i18n, aka: "why we're trying to avoid string concatenation here"
   const arrivalAndDepartureText = type === DataTypes.PREDICTION ?
-    `The train is expected to arrive ${arrivalTime.fromNow()} and will be leaving ${departureTime.fromNow()}.` :
-    `The train is scheduled to arrive ${arrivalTime.fromNow()} and leave ${departureTime.fromNow()}.`;
+    `The ${routeVehicleName} will arrive ${arrivalTime.fromNow()} and will be leaving ${departureTime.fromNow()}.` :
+    `The ${routeVehicleName} is scheduled to arrive ${arrivalTime.fromNow()} and leave ${departureTime.fromNow()}.`;
   const departureOnlyText = type === DataTypes.PREDICTION ?
-    `The train will be leaving ${departureTime.fromNow()}.` :
-    `The train is scheduled to leave ${departureTime.fromNow()}.`;
+    `The ${routeVehicleName} will be leaving ${departureTime.fromNow()}.` :
+    `The ${routeVehicleName} is scheduled to leave ${departureTime.fromNow()}.`;
 
     return attributes.status || (
       attributes.departure_time ?
@@ -81,4 +84,19 @@ export function getArrivalText (
           departureOnlyText
         : 'is currently unknown' // should be unreachable
     );
+}
+
+function routeTypeToVehicleNameText (typeId: VehicleType): string {
+    switch (typeId) {
+      case VehicleType.LIGHT_RAIL:
+        return 'train';
+      case VehicleType.HEAVY_RAIL:
+        return 'train';
+      case VehicleType.COMMUTER_RAIL:
+        return 'train';
+      case VehicleType.BUS:
+        return 'bus';
+      case VehicleType.FERRY:
+        return 'ferry';
+    }
 }

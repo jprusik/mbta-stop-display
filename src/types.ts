@@ -71,6 +71,15 @@ export type ScheduleData = {
   included: Array<Route | Stop>;
 }
 
+// Called `vehicle_type` on `stop` model, `type` on `route` model
+export enum VehicleType {
+  LIGHT_RAIL = 0,
+  HEAVY_RAIL = 1,
+  COMMUTER_RAIL = 2,
+  BUS = 3,
+  FERRY = 4
+}
+
 export type RouteAttributes = {
   color: string; // hex value, e.g. "FFFFFF"
   description: string; // e.g. "Commuter Rail"
@@ -81,7 +90,7 @@ export type RouteAttributes = {
   short_name: string; // e.g. "Red" - will have empty string value `""` if no value is otherwise defined.
   sort_order: number;
   text_color: string; // hex value, e.g. "FFFFFF"
-  type: 0 | 1 | 2 | 3 | 4; // ex. 2 == "Commuter Rail"
+  type: VehicleType; // ex. 2 == "Commuter Rail"
 }
 
 export type Route = {
@@ -110,7 +119,7 @@ export type StopAttributes = {
   on_street: string | null; // e.g. "Massachusetts Avenue",
   platform_code: string | null; // e.g. "5",
   platform_name: string; // e.g. "Red Line",
-  vehicle_type: 0 | 1 | 2 | 3 | 4; // e.g. 3,
+  vehicle_type: VehicleType; // e.g. 3,
   wheelchair_boarding: 0 | 1 | 2; // e.g. 0,
 }
 
