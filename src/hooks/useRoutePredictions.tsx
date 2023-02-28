@@ -1,18 +1,24 @@
 import {useState, useEffect} from 'react';
-import {PredictionData} from 'types';
-import {API_KEY, PREDICTIONS_REQUEST_URL} from '../constants';
+import {
+  PredictionData,
+  ResponseError,
+  Route,
+  Stop,
+  UsePredictionData
+} from 'types';
+import {API_KEY, REQUEST_DOMAIN} from '../constants';
 
-type RouteStopPredictionsData = {
-  data?: PredictionData | null;
-  error: Error | null;
-  isLoading: boolean;
-  refetch: () => void;
-}
-
-export function useRoutePredictions (): RouteStopPredictionsData {
+export function useRoutePredictions (
+  routeId?: Route['id'],
+  routeStopId?: Stop['id']
+): UsePredictionData {
   const [data, setData] = useState<PredictionData | null | undefined>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<Error | ResponseError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // @TODO use `fields` to reduce response data to only what is used in the app
+  const requestURL =
+    `${REQUEST_DOMAIN}/predictions/?filter[route]=${routeId}&filter[stop]=${routeStopId}&sort=direction_id,departure_time`;
 
   function refetch () {
     setData(null);
@@ -29,17 +35,31 @@ export function useRoutePredictions (): RouteStopPredictionsData {
       } : {};
 
       const response = await fetch(
-        PREDICTIONS_REQUEST_URL,
+        requestURL,
         requestOptions
       );
 
       const responseData = await response.json();
 
-      setData(responseData);
+      if (responseData.errors) {
+        // @TODO handle response errors
+        // {
+        //   "code": "bad_request",
+        //   "detail": "Invalid sort key.",
+        //   "source": {
+        //       "parameter": "sort"
+        //   },
+        //   "status": "400"
+        // }
+        setError(responseData.errors[0] as ResponseError);
+      } else {
+        setData(responseData);
+      }
+
       setIsLoading(false);
     }
 
-    if (!data && !error) {
+    if (!data && !error && routeId && routeStopId) {
       try {
         getRouteStopPredictions();
       } catch (error) {
@@ -47,7 +67,7 @@ export function useRoutePredictions (): RouteStopPredictionsData {
         setIsLoading(false);
       }
     }
-  }, [data, error, isLoading]);
+  }, [data, error, isLoading, requestURL, routeId, routeStopId]);
 
   return {
     data,

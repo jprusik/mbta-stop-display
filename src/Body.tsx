@@ -1,43 +1,32 @@
-import {Fragment, useEffect, useMemo} from 'react';
+import {Fragment, useMemo} from 'react';
 import styled from '@emotion/styled';
-import {DATA_REFETCH_INTERVAL} from './constants';
-import {RouteAttributes, StopAttributes} from 'types';
-import {useRoutePredictions} from './hooks/useRoutePredictions';
-import {useRouteSchedule} from './hooks/useRouteSchedule';
+import {
+  Route,
+  RouteAttributes,
+  Stop,
+  StopAttributes,
+  UsePredictionData,
+  UseRouteScheduleData
+} from 'types';
 import {NextArrivalsContainer} from './NextArrivalsContainer';
 
-export function Body() {
-  const {
-    data: predictionsData,
-    error: predictionsError,
-    isLoading: predictionsAreLoading,
-    refetch: predictionsRefetch
-  } = useRoutePredictions();
+type BodyProps = {
+  predictions: UsePredictionData;
+  schedule: UseRouteScheduleData;
+  selectedRoute?: Route['id'];
+  selectedRouteStop?: Stop['id'];
+}
 
-  // Refresh the predictions data every x ms
-  useEffect(() => {
-    const refetchInterval =
-      setInterval(predictionsRefetch, DATA_REFETCH_INTERVAL);
-
-    return () => clearInterval(refetchInterval);
-  }, [predictionsRefetch]);
-
-  /*
-  We need to fetch schedule data separately since it is unavailable
-  as an include on predictions if no predictions are returned. Also,
-  for now we won't refetch the schedule data since it's not likely
-  to change frequently.
-  */
-  const {
-    data: scheduleData,
-    error: scheduleError,
-    isLoading: scheduleIsLoading
-  } = useRouteSchedule();
-
+export function Body({
+  predictions,
+  schedule,
+  selectedRoute,
+  selectedRouteStop
+}: BodyProps): JSX.Element {
   // Route data
   const routeAttributes = useMemo(() =>
-    scheduleData?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes
-  , [scheduleData]);
+    schedule.data?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes
+  , [schedule]);
   const routeColor = routeAttributes?.color ?
     `#${routeAttributes.color}` : 'transparent';
   const routeTextColor = routeAttributes?.text_color ?
@@ -47,8 +36,8 @@ export function Body() {
   // Note: more than one stop record may be returned if the place has
   // multiple berths
   const stopData = useMemo(() =>
-    scheduleData?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes
-  , [scheduleData]);
+    schedule.data?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes
+  , [schedule]);
   const stopTitleIsAvailable = !!(
     routeAttributes?.description &&
     routeAttributes?.long_name &&
@@ -60,26 +49,30 @@ export function Body() {
 
   return (
     <Container>
-      {(predictionsError || scheduleError) ?
+      {(predictions.isLoading || schedule.isLoading) ? (
+        <CenterMessage>Arrival information is loading...</CenterMessage>
+      ) : (predictions.error || schedule.error) ? (
         // @TODO better error feedback/messaging
-        'Something went wrong :-(' :
-        (predictionsAreLoading || scheduleIsLoading) ?
-          'Arrival information is loading...' : (
-            <Fragment>
-              <Header
-                backgroundColor={routeColor}
-                textColor={routeTextColor}
-              >
-                {stopTitle}
-              </Header>
-              <NextArrivalsContainer
-                predictionsData={predictionsData?.data}
-                routeAttributes={routeAttributes}
-                scheduleData={scheduleData?.data}
-              />
-            </Fragment>
-          )
-      }
+        <CenterMessage>Something went wrong :-(</CenterMessage>
+      ) : !selectedRoute ? (
+        <CenterMessage>Please select a route.</CenterMessage>
+      ) : !selectedRouteStop ? (
+        <CenterMessage>Please select a route stop.</CenterMessage>
+      ) : (
+        <Fragment>
+          <Header
+            backgroundColor={routeColor}
+            textColor={routeTextColor}
+          >
+            {stopTitle}
+          </Header>
+          <NextArrivalsContainer
+            predictionsData={predictions.data?.data}
+            routeAttributes={routeAttributes}
+            scheduleData={schedule.data?.data}
+          />
+        </Fragment>
+      )}
     </Container>
   );
 }
@@ -97,6 +90,10 @@ const Header = styled.h1<HeaderProps>`
   margin: 0;
   padding: 10px 10%;
   font-size: 32px;
+`;
+
+const CenterMessage = styled.div`
+  margin: 40vh auto;
 `;
 
 const Container = styled.div`

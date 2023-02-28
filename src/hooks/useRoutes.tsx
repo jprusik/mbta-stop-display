@@ -1,27 +1,13 @@
 import {useState, useEffect} from 'react';
-import {
-  DataTypes,
-  ResponseError,
-  Route,
-  ScheduleData,
-  Stop,
-  UseRouteScheduleData
-} from 'types';
+import {RouteData, ResponseError, UseRoutesData} from 'types';
 import {API_KEY, REQUEST_DOMAIN} from '../constants';
 
-// @TODO remove the `stop` include here and re-use the data already loaded
-// for the stops selection input
-const REQUEST_INCLUDES = [DataTypes.ROUTE, DataTypes.STOP];
-
-export function useRouteSchedule (
-  routeId?: Route['id'],
-  routeStopId?: Stop['id']
-): UseRouteScheduleData {
-  const [data, setData] = useState<ScheduleData | null | undefined>(null);
+export function useRoutes (): UseRoutesData {
+  const [data, setData] = useState<RouteData | null | undefined>(null);
   const [error, setError] = useState<Error | ResponseError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const requestURL = `${REQUEST_DOMAIN}/schedules/?filter[route]=${routeId}&filter[stop]=${routeStopId}&include=${REQUEST_INCLUDES.join(',')}&sort=direction_id,departure_time`;
+  const requestURL = `${REQUEST_DOMAIN}/routes/?sort=type,long_name,description`;
 
   function refetch () {
     setData(null);
@@ -30,7 +16,7 @@ export function useRouteSchedule (
   }
 
   useEffect(() => {
-    async function getRouteStopSchedule () {
+    async function getRoutes () {
       const requestOptions = API_KEY ? {
         headers: {
           'x-api-key': API_KEY
@@ -62,15 +48,15 @@ export function useRouteSchedule (
       setIsLoading(false);
     }
 
-    if (!data && !error && routeId && routeStopId) {
+    if (!data && !error) {
       try {
-        getRouteStopSchedule();
+        getRoutes();
       } catch (error) {
         setError(error as Error);
         setIsLoading(false);
       }
     }
-  }, [data, error, isLoading, requestURL, routeId, routeStopId]);
+  }, [data, error, isLoading, requestURL]);
 
   return {
     data,

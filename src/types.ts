@@ -1,3 +1,12 @@
+export type ResponseError = {
+  code: string;
+  detail: string;
+  source: {
+    parameter: string;
+  },
+  status: string;
+}
+
 export enum DataTypes {
   PREDICTION = 'prediction',
   ROUTE = 'route',
@@ -5,6 +14,15 @@ export enum DataTypes {
   STOP = 'stop',
   TRIP = 'trip',
   VEHICLE = 'vehicle'
+}
+
+// Called `vehicle_type` on `stop` model, `type` on `route` model
+export enum VehicleType {
+  LIGHT_RAIL = 0,
+  HEAVY_RAIL = 1,
+  COMMUTER_RAIL = 2,
+  BUS = 3,
+  FERRY = 4
 }
 
 type RelationshipData = {
@@ -36,6 +54,13 @@ export type Prediction = {
 
 export type PredictionData = {
   data: Prediction[];
+}
+
+export type UsePredictionData = {
+  data?: PredictionData | null;
+  error: Error | ResponseError | null;
+  isLoading: boolean;
+  refetch: () => void;
 }
 
 type ScheduleRelationships = {
@@ -71,13 +96,11 @@ export type ScheduleData = {
   included: Array<Route | Stop>;
 }
 
-// Called `vehicle_type` on `stop` model, `type` on `route` model
-export enum VehicleType {
-  LIGHT_RAIL = 0,
-  HEAVY_RAIL = 1,
-  COMMUTER_RAIL = 2,
-  BUS = 3,
-  FERRY = 4
+export type UseRouteScheduleData = {
+  data?: ScheduleData | null;
+  error: Error | ResponseError | null;
+  isLoading: boolean;
+  refetch: () => void;
 }
 
 export type RouteAttributes = {
@@ -105,6 +128,18 @@ export type Route = {
     }
   },
   type: DataTypes.ROUTE;
+}
+
+export type RouteData = {
+  data: Route[];
+  errors?: ResponseError[];
+}
+
+export type UseRoutesData = {
+  data?: RouteData | null;
+  error: Error | ResponseError | null;
+  isLoading: boolean;
+  refetch: () => void;
 }
 
 export type StopAttributes = {
@@ -141,4 +176,16 @@ export type Stop = {
     }
   },
   type: DataTypes.STOP;
+}
+
+export type StopData = {
+  data: Stop[];
+  errors?: ResponseError[];
+}
+
+export type UseRouteStopData = {
+  data?: StopData | null;
+  error: Error | ResponseError | null;
+  isLoading: boolean;
+  refetch: () => void;
 }
