@@ -49,15 +49,15 @@ export function Body({
 
   return (
     <Container>
-      {(predictions.isLoading || schedule.isLoading) ? (
+      {!selectedRoute ? (
+        <CenterMessage>Please select a route.</CenterMessage>
+      ) : !selectedRouteStop ? (
+        <CenterMessage>Please select a route stop.</CenterMessage>
+      ) : (predictions.isLoading || schedule.isLoading) ? (
         <CenterMessage>Arrival information is loading...</CenterMessage>
       ) : (predictions.error || schedule.error) ? (
         // @TODO better error feedback/messaging
         <CenterMessage>Something went wrong :-(</CenterMessage>
-      ) : !selectedRoute ? (
-        <CenterMessage>Please select a route.</CenterMessage>
-      ) : !selectedRouteStop ? (
-        <CenterMessage>Please select a route stop.</CenterMessage>
       ) : (
         <Fragment>
           <Header
