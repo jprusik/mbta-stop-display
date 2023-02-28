@@ -1,5 +1,5 @@
 export const DATA_REFETCH_INTERVAL = process.env.REACT_APP_DATA_REFETCH_INTERVAL ?
-  parseInt(process.env.REACT_APP_DATA_REFETCH_INTERVAL, 10) : 60000;
+  parseInt(process.env.REACT_APP_DATA_REFETCH_INTERVAL, 10) : 300000;
 
 /*
 Note: using an API key in a public-facing environment will expose it
