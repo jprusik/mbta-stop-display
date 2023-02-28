@@ -1,5 +1,5 @@
-html {
-  background-color: #282c34;
+html, body {
+  background-color: #0A1929;
 }
 
 body {
@@ -10,11 +10,10 @@ body {
   align-items: center;
   justify-content: flex-start;
   margin: 0;
-  background-color: #282c34;
   height: 100vh;
   text-align: center;
   color: white;
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   font-size: calc(10px + 2vmin);
 }
 

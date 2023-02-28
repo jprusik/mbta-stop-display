@@ -1,5 +1,6 @@
 import {Fragment, useEffect, useState} from 'react';
 import {Route, Stop} from 'types';
+import {SelectChangeEvent} from '@mui/material/Select';
 import {DATA_REFETCH_INTERVAL, ROUTE, ROUTE_STOP} from './constants';
 import {
   useRoutePredictions,
@@ -45,7 +46,7 @@ export function App() {
     }
   }, [selectedRoute, selectedRouteStop]);
 
-  async function handleRouteSelection (event: any) {
+  async function handleRouteSelection (event: SelectChangeEvent) {
     const newRouteSelectionId = event.target.value;
     setSelectedRoute(newRouteSelectionId);
     setSelectedRouteStop(undefined);
@@ -55,7 +56,7 @@ export function App() {
     }
   }
 
-  function handleRouteStopSelection (event: any) {
+  function handleRouteStopSelection (event: SelectChangeEvent) {
     const newRouteStopSelectionId = event.target.value;
     setSelectedRouteStop(newRouteStopSelectionId);
   }
