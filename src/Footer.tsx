@@ -166,8 +166,18 @@ const FooterToggle = styled(Button)`
 `;
 
 const SelectionContainer = styled.div`
-  > div:not(:last-of-type) {
-    margin-right: 10px;
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  width: 100%;
+
+  > div {
+    margin-bottom: 20px;
+    max-width: 45%;
+
+    &:not(:last-of-type) {
+      margin-right: 10px;
+    }
   }
 `;
 
@@ -180,7 +190,7 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
     margin: 0 auto;
     border-top: 1px solid #666;
     background-color: #22272e;
-    padding: 20px 0;
+    padding: 0;
     width: 100vw;
     font-size: 1rem;
 
