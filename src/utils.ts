@@ -52,11 +52,17 @@ export function getRelevantTimes (
     }, {} as RelevantArrivals);
 }
 
-export function getArrivalText (
+type ArrivalTextData = {
+  translationKey: string;
+  arrivalTime?: string;
+  departureTime?: string;
+}
+
+export function getArrivalTextKey (
   attributes: PredictionAttributes | ScheduleAttributes,
-  type: DataTypes.PREDICTION | DataTypes.SCHEDULE,
+  arrivalType: DataTypes.PREDICTION | DataTypes.SCHEDULE,
   routeTypeId: VehicleType
-): string {
+): ArrivalTextData {
   const now = moment();
   const arrivalTime = moment(attributes.arrival_time);
   const departureTime = moment(attributes.departure_time);
@@ -64,29 +70,31 @@ export function getArrivalText (
   /*
   Verify that `arrival_time` predictions are in the
   future, since predictions from the immediate past can
-  be returned from the API. `departure_time` values not in the future are filtered out upstream.
+  be returned from the API. `departure_time` values
+  not in the future are filtered out upstream.
   */
   const arrivalIsInFuture = arrivalTime.isAfter(now);
-  const routeVehicleName = routeTypeToVehicleNameText(routeTypeId);
+  const routeVehicleKeyName = routeTypeToVehicleName(routeTypeId);
 
-  // @TODO i18n, aka: "why we're trying to avoid string concatenation here"
-  const arrivalAndDepartureText = type === DataTypes.PREDICTION ?
-    `The ${routeVehicleName} will arrive ${arrivalTime.fromNow()} and will be leaving ${departureTime.fromNow()}.` :
-    `The ${routeVehicleName} is scheduled to arrive ${arrivalTime.fromNow()} and leave ${departureTime.fromNow()}.`;
-  const departureOnlyText = type === DataTypes.PREDICTION ?
-    `The ${routeVehicleName} will be leaving ${departureTime.fromNow()}.` :
-    `The ${routeVehicleName} is scheduled to leave ${departureTime.fromNow()}.`;
-
-    return attributes.status || (
-      attributes.departure_time ?
-        (attributes.arrival_time && arrivalIsInFuture) ?
-          arrivalAndDepartureText :
-          departureOnlyText
-        : 'is currently unknown' // should be unreachable
-    );
+  return attributes.status ? {
+    // `status` is a en-US string returned from the API
+    translationKey: attributes.status
+  } : (
+    attributes.departure_time ?
+      (attributes.arrival_time && arrivalIsInFuture) ?
+        {
+          translationKey: `state.arrival_and_departure_${routeVehicleKeyName}_${arrivalType}`,
+          arrivalTime: arrivalTime.fromNow(true),
+          departureTime: departureTime.fromNow(true)
+        } : {
+          translationKey: `state.departure_${routeVehicleKeyName}_${arrivalType}`,
+          departureTime: departureTime.fromNow(true)
+        }
+      : {translationKey: 'state.arrival_currently_unknown'} // should be unreachable
+  );
 }
 
-function routeTypeToVehicleNameText (typeId: VehicleType): string {
+export function routeTypeToVehicleName (typeId: VehicleType): string {
     switch (typeId) {
       case VehicleType.LIGHT_RAIL:
         return 'train';

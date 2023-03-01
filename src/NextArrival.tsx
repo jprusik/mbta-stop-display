@@ -1,11 +1,13 @@
+import {useMemo} from 'react';
 import styled from '@emotion/styled';
+import {useTranslation} from 'react-i18next';
 import {
   DataTypes,
   PredictionAttributes,
   RouteAttributes,
   ScheduleAttributes
 } from 'types';
-import {getArrivalText} from 'utils';
+import {getArrivalTextKey, routeTypeToVehicleName} from 'utils';
 
 type NextArrivalProps = {
   attributes: PredictionAttributes | ScheduleAttributes;
@@ -18,15 +20,28 @@ export function NextArrival ({
   route,
   type
 }: NextArrivalProps): JSX.Element | null {
-  const arrivalText = getArrivalText(attributes, type, route.type);
+  const {t} = useTranslation();
 
   const directionIndex = attributes.direction_id;
   const routeDestinationName = route.direction_destinations[directionIndex];
   const routeDirectionName = route.direction_names[directionIndex];
 
-  // @TODO fix vehicle type assumption
+  // We don't memoize this because we want the arrival/departure strings to
+  // update every x ms interval
+  const {translationKey, ...translationVariables} =
+    getArrivalTextKey(attributes, type, route.type);
+
+  const vehicleTypeKey = useMemo(() =>
+    routeTypeToVehicleName(route.type),
+    [route]
+  );
+
   const destinationHeaderText =
-    `The next train to ${routeDestinationName} (${routeDirectionName}):`
+    t(
+      `state.destination_header_${vehicleTypeKey}`, {
+      routeDestinationName,
+      routeDirectionName
+    });
 
   return (
     <PredictionContainer>
@@ -34,7 +49,7 @@ export function NextArrival ({
         {destinationHeaderText}
       </Header>
       <ArrivalDescription>
-        {arrivalText}
+        {t(translationKey, translationVariables)}
       </ArrivalDescription>
     </PredictionContainer>
   )

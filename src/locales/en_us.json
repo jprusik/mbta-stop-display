@@ -1,0 +1,43 @@
+{
+  "action_prompt": {
+    "select_route_short": "Select a route",
+    "select_route": "Please select a route.",
+    "select_stop_short": "Select a stop",
+    "select_stop": "Please select a route stop.",
+    "toggle_hide": "Hide",
+    "toggle_show": "Show"
+  },
+  "error": {
+    "generic": "Something went wrong :-(",
+    "no_arrival_information": "No arrival information for this stop was found.",
+    "no_route_stops": "There are no stops for this route.",
+    "no_routes_information": "The routes information was unable to load.",
+    "no_stop_information": "The information for this stop was unable to load."
+
+  },
+  "input": {
+    "route_label": "Route",
+    "stop_label": "Route Stop"
+  },
+  "state": {
+    "arrival_and_departure_bus_prediction": "The bus will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
+    "arrival_and_departure_bus_schedule": "The bus is scheduled to arrive in {{arrivalTime}} and leave in {{departureTime}}.",
+    "arrival_and_departure_ferry_prediction": "The ferry will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
+    "arrival_and_departure_ferry_schedule": "The ferry is scheduled to arrive in {{arrivalTime}} and leave in {{departureTime}}.",
+    "arrival_and_departure_train_prediction": "The train will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
+    "arrival_and_departure_train_schedule": "The train is scheduled to arrive in {{arrivalTime}} and leave in {{departureTime}}.",
+    "arrival_currently_unknown": "is currently unknown",
+    "arrival_information_loading": "Arrival information is loading...",
+    "data_loading": "Data is loading...",
+    "departure_bus_prediction": "The bus will be leaving in {{departureTime}}.",
+    "departure_bus_schedule": "The bus is scheduled to leave in {{departureTime}}.",
+    "departure_ferry_prediction": "The ferry will be leaving in {{departureTime}}.",
+    "departure_ferry_schedule": "The ferry is scheduled to leave in {{departureTime}}.",
+    "departure_train_prediction": "The train will be leaving in {{departureTime}}.",
+    "departure_train_schedule": "The train is scheduled to leave in {{departureTime}}.",
+    "destination_header_bus": "The next bus to {{routeDestinationName}} ({{routeDirectionName}}):",
+    "destination_header_ferry": "The next ferry to {{routeDestinationName}} ({{routeDirectionName}}):",
+    "destination_header_train": "The next train to {{routeDestinationName}} ({{routeDirectionName}}):",
+    "stop_title": "{{routeDescription}} ({{routeLongName}}) at {{stopName}}"
+  }
+}

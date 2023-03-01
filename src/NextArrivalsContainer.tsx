@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import {useTranslation} from 'react-i18next';
 import {
   Prediction,
   RouteAttributes,
@@ -19,6 +20,8 @@ export function NextArrivalsContainer ({
   routeAttributes,
   scheduleData = []
 }: NextArrivalsContainerProps): JSX.Element {
+  const {t} = useTranslation();
+
   const [arrivalData, setArrivalData] =
     useState<Array<Prediction | Schedule>>([]);
 
@@ -80,9 +83,9 @@ export function NextArrivalsContainer ({
   ) : (
     <ArrivalsContainer>
       {arrivalDataIsLoading ? (
-        <div>Arrival information is loading...</div>
+        <div>{t('state.arrival_information_loading')}</div>
       ) : (
-        <div>No arrival information for this stop was found.</div>
+        <div>{t('error.no_arrival_information')}</div>
       )}
     </ArrivalsContainer>
   );

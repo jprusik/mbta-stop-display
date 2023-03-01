@@ -1,5 +1,6 @@
 import {Fragment, useMemo} from 'react';
 import styled from '@emotion/styled';
+import {useTranslation} from 'react-i18next';
 import {
   Route,
   RouteAttributes,
@@ -23,6 +24,8 @@ export function Body({
   selectedRoute,
   selectedRouteStop
 }: BodyProps): JSX.Element {
+  const {t} = useTranslation();
+
   // Route data
   const routeAttributes = useMemo(() =>
     schedule.data?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes
@@ -44,20 +47,24 @@ export function Body({
     stopData?.name
   );
   const stopTitle = stopTitleIsAvailable ?
-    `${routeAttributes?.description} (${routeAttributes?.long_name}) at ${stopData?.name}` :
-    'The information for this stop was unable to load.';
+    t('state.stop_title', {
+      routeDescription: routeAttributes?.description,
+      routeLongName: routeAttributes?.long_name,
+      stopName: stopData?.name
+    }) :
+    t('error.no_stop_information');
 
   return (
     <Container>
       {!selectedRoute ? (
-        <CenterMessage>Please select a route.</CenterMessage>
+        <CenterMessage>{t('action_prompt.select_route')}</CenterMessage>
       ) : !selectedRouteStop ? (
-        <CenterMessage>Please select a route stop.</CenterMessage>
+        <CenterMessage>{t('action_prompt.select_stop')}</CenterMessage>
       ) : (predictions.isLoading || schedule.isLoading) ? (
-        <CenterMessage>Arrival information is loading...</CenterMessage>
+        <CenterMessage>{t('state.arrival_information_loading')}</CenterMessage>
       ) : (predictions.error || schedule.error) ? (
         // @TODO better error feedback/messaging
-        <CenterMessage>Something went wrong :-(</CenterMessage>
+        <CenterMessage>{t('error.generic')}</CenterMessage>
       ) : (
         <Fragment>
           <Header

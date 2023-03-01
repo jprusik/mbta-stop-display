@@ -1,5 +1,6 @@
 import {Fragment, useState} from 'react';
 import styled from '@emotion/styled';
+import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -32,6 +33,7 @@ export function Footer ({
   handleRouteSelection,
   handleRouteStopSelection,
 }: FooterProps): JSX.Element {
+  const {t} = useTranslation();
   const [footerIsOpen, setFooterIsOpen] = useState(true);
 
   function handleFooterToggle () {
@@ -42,19 +44,21 @@ export function Footer ({
     <FooterContainer footerIsOpen={footerIsOpen}>
       <SelectionContainer>
         {routes.isLoading ? (
-          <div>Data is loading...</div>
+          <div>{t('state.data_loading')}</div>
         ) : routes.error ? (
-          <div>Something went wrong :-(</div>
+          <div>{t('error.generic')}</div>
         ) : !routes.data?.data.length ? (
-          <div>The routes information unable to load.</div>
+          <div>{t('error.no_routes_information')}</div>
         ) : (
           <Fragment>
             <FormControl size="small">
-              <InputLabel id="select-route">Route</InputLabel>
+              <InputLabel id="select-route">
+                {t('input.route_label')}
+              </InputLabel>
               <Select
                 autoWidth
                 error={!selectedRoute}
-                label="Route"
+                label={t('input.route_label')}
                 labelId="select-route"
                 onChange={handleRouteSelection}
                 value={selectedRoute || 'none'}
@@ -66,7 +70,7 @@ export function Footer ({
                   value="none"
                   disabled
                 >
-                  Select a route
+                  {t('action_prompt.select_route_short')}
                 </MenuItem>
                 {/* Sorted by API by: type, long_name, description */}
                 {routes.data.data?.map(({attributes, id}) => (
@@ -82,18 +86,20 @@ export function Footer ({
             {!selectedRoute ? (
               null
             ) : routeStops.isLoading ? (
-              <div>Data is loading...</div>
+              <div>{t('state.data_loading')}</div>
             ): routeStops.error ? (
-              <div>Something went wrong :-(</div>
+              <div>{t('error.generic')}</div>
             ) : !routeStops.data?.data.length ? (
-              <div>There are no stops for this route.</div>
+              <div>{t('error.no_route_stops')}</div>
             ) : (
               <FormControl size="small">
-                <InputLabel id="select-route-stop">Route Stop</InputLabel>
+                <InputLabel id="select-route-stop">
+                  {t('input.stop_label')}
+                </InputLabel>
                 <Select
                   autoWidth
                   error={!selectedRouteStop}
-                  label="Route Stop"
+                  label={t('input.stop_label')}
                   labelId="select-route-stop"
                   onChange={handleRouteStopSelection}
                   value={selectedRouteStop || 'none'}
@@ -105,7 +111,7 @@ export function Footer ({
                     value="none"
                     disabled
                   >
-                    Select a stop
+                    {t('action_prompt.select_stop_short')}
                   </MenuItem>
                   {routeStops.data?.data?.map(({attributes, id}) => (
                     <MenuItem
@@ -133,7 +139,9 @@ export function Footer ({
         variant="text"
         onClick={handleFooterToggle}
       >
-        {footerIsOpen ? 'Hide' : 'Show'}
+        {footerIsOpen ?
+          t('action_prompt.toggle_hide') : t('action_prompt.toggle_show')
+        }
       </FooterToggle>
     </FooterContainer>
   );
