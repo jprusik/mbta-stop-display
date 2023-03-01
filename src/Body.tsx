@@ -9,6 +9,7 @@ import {
   UsePredictionData,
   UseRouteScheduleData
 } from 'types';
+import {SkeletonHeader, SkeletonArrivals} from './Loaders';
 import {NextArrivalsContainer} from './NextArrivalsContainer';
 
 type BodyProps = {
@@ -61,7 +62,11 @@ export function Body({
       ) : !selectedRouteStop ? (
         <CenterMessage>{t('action_prompt.select_stop')}</CenterMessage>
       ) : (predictions.isLoading || schedule.isLoading) ? (
-        <CenterMessage>{t('state.arrival_information_loading')}</CenterMessage>
+        <Fragment>
+          <SkeletonHeader variant="rectangular" />
+          <SkeletonArrivals variant="rounded" />
+          <SkeletonArrivals variant="rounded" />
+        </Fragment>
       ) : (predictions.error || schedule.error) ? (
         // @TODO better error feedback/messaging
         <CenterMessage>{t('error.generic')}</CenterMessage>

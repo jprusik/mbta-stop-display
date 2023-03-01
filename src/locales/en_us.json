@@ -27,7 +27,6 @@
     "arrival_and_departure_train_prediction": "The train will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
     "arrival_and_departure_train_schedule": "The train is scheduled to arrive in {{arrivalTime}} and leave in {{departureTime}}.",
     "arrival_currently_unknown": "is currently unknown",
-    "arrival_information_loading": "Arrival information is loading...",
     "data_loading": "Data is loading...",
     "departure_bus_prediction": "The bus will be leaving in {{departureTime}}.",
     "departure_bus_schedule": "The bus is scheduled to leave in {{departureTime}}.",

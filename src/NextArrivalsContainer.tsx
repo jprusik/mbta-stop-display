@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
+import {SkeletonArrivals} from './Loaders';
 import {
   Prediction,
   RouteAttributes,
@@ -80,16 +81,24 @@ export function NextArrivalsContainer ({
         />
       ))}
     </ArrivalsContainer>
-  ) : (
-    <ArrivalsContainer>
-      {arrivalDataIsLoading ? (
-        <div>{t('state.arrival_information_loading')}</div>
+  ) : arrivalDataIsLoading ? (
+        <SkeletonContainer>
+          <SkeletonArrivals variant="rounded" />
+          <SkeletonArrivals variant="rounded" />
+        </SkeletonContainer>
       ) : (
+    <ArrivalsContainer>
         <div>{t('error.no_arrival_information')}</div>
-      )}
     </ArrivalsContainer>
-  );
+      )
+  ;
 }
+
+const SkeletonContainer = styled.div`
+  > span {
+    top: 0;
+  }
+`;
 
 const ArrivalsContainer = styled.div`
   > div {

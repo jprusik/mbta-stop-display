@@ -2,6 +2,7 @@ import {Fragment, useState} from 'react';
 import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -46,6 +47,8 @@ export function Footer ({
       <SelectionContainer>
         {routes.isLoading ? (
           <SelectionMessage>
+            <CircularProgress size={16} />
+            &nbsp;
             {t('state.data_loading')}
           </SelectionMessage>
         ) : routes.error ? (
@@ -70,10 +73,11 @@ export function Footer ({
                 error={!selectedRoute || !routeStops.data?.data.length}
                 label={t('input.route_label')}
                 labelId="select-route"
-                onChange={handleRouteSelection}
+                sx={{minWidth: 40}}
                 value={selectedRoute || 'none'}
                 variant="outlined"
                 MenuProps={{transitionDuration: 0}}
+                onChange={handleRouteSelection}
               >
                 <MenuItem
                   key="none"
@@ -97,6 +101,8 @@ export function Footer ({
               null
             ) : routeStops.isLoading ? (
               <SelectionMessage>
+                <CircularProgress size={16} />
+                &nbsp;
                 {t('state.data_loading')}
               </SelectionMessage>
             ): routeStops.error ? (
@@ -121,10 +127,11 @@ export function Footer ({
                   error={!selectedRouteStop}
                   label={t('input.stop_label')}
                   labelId="select-route-stop"
-                  onChange={handleRouteStopSelection}
+                  sx={{minWidth: 40}}
                   value={selectedRouteStop || 'none'}
                   variant="outlined"
                   MenuProps={{transitionDuration: 0}}
+                  onChange={handleRouteStopSelection}
                 >
                   <MenuItem
                     key="none"
@@ -242,9 +249,12 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
     width: 100vw;
     font-size: 1rem;
 
-    > div > div > *:not(svg) {
-      visibility: ${footerIsOpen ? 'visible' : 'hidden'};
+    > div {
       margin: 0 20px;
+
+      > div > *:not(svg) {
+        visibility: ${footerIsOpen ? 'visible' : 'hidden'};
+      }
     }
   `}
 `;
