@@ -11,6 +11,7 @@ import {App} from './App';
 import reportWebVitals from './reportWebVitals';
 
 const darkTheme = createTheme({
+  transitions: { create: () => 'none' },
   palette: {
     mode: 'dark',
     background: {
