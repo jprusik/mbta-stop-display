@@ -62,7 +62,8 @@ const PredictionContainer = styled.div`
   border-color: #666;
   background: #3D3D3D;
   padding: 15px;
-  max-width: 80%;
+  width: 100%;
+  max-width: 682px;
 `;
 
 const Header = styled.h2`

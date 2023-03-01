@@ -204,12 +204,11 @@ const SelectionIndicator = styled(SouthRoundedIcon)`
   position: absolute;
   top: -140px;
   left: 20px;
-  opacity: 0.6;
   margin: auto;
   width: auto;
   height: 125px;
   text-align: center;
-  color: red;
+  color: #d8493f;
 `;
 
 const SelectionMessage = styled.div`

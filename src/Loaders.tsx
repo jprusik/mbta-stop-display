@@ -13,7 +13,7 @@ export const SkeletonArrivals = styled(Skeleton)`
   position: relative;
   top: 78px;
   margin: 20px auto;
-  width: 682px;
-  max-width: 80%;
+  width: 100%;
+  max-width: 682px;
   height: 128px;
 `;

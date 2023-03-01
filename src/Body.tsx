@@ -10,7 +10,8 @@ import {
   UseRouteScheduleData
 } from 'types';
 import {SkeletonHeader, SkeletonArrivals} from './Loaders';
-import {NextArrivalsContainer} from './NextArrivalsContainer';
+import {NextArrivalsContainer} from 'NextArrivalsContainer';
+import {ActionSteps} from 'ActionSteps';
 
 type BodyProps = {
   predictions: UsePredictionData;
@@ -58,9 +59,9 @@ export function Body({
   return (
     <Container>
       {!selectedRoute ? (
-        <CenterMessage>{t('action_prompt.select_route')}</CenterMessage>
+        <ActionSteps activeStep={0} />
       ) : !selectedRouteStop ? (
-        <CenterMessage>{t('action_prompt.select_stop')}</CenterMessage>
+        <ActionSteps activeStep={1} />
       ) : (predictions.isLoading || schedule.isLoading) ? (
         <Fragment>
           <SkeletonHeader variant="rectangular" />
