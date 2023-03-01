@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import SouthRoundedIcon from '@mui/icons-material/SouthRounded';
 import {Route, Stop, UseRoutesData, UseRouteStopData} from 'types';
 
 type FooterProps = {
@@ -44,20 +45,29 @@ export function Footer ({
     <FooterContainer footerIsOpen={footerIsOpen}>
       <SelectionContainer>
         {routes.isLoading ? (
-          <div>{t('state.data_loading')}</div>
+          <SelectionMessage>
+            {t('state.data_loading')}
+          </SelectionMessage>
         ) : routes.error ? (
-          <div>{t('error.generic')}</div>
+          <SelectionMessage>
+            {t('error.generic')}
+          </SelectionMessage>
         ) : !routes.data?.data.length ? (
-          <div>{t('error.no_routes_information')}</div>
+          <SelectionMessage>
+            {t('error.no_routes_information')}
+          </SelectionMessage>
         ) : (
           <Fragment>
             <FormControl size="small">
+              {!selectedRoute && (
+                <SelectionIndicator fontSize="large" />
+              )}
               <InputLabel id="select-route">
                 {t('input.route_label')}
               </InputLabel>
               <Select
                 autoWidth
-                error={!selectedRoute}
+                error={!selectedRoute || !routeStops.data?.data.length}
                 label={t('input.route_label')}
                 labelId="select-route"
                 onChange={handleRouteSelection}
@@ -86,13 +96,23 @@ export function Footer ({
             {!selectedRoute ? (
               null
             ) : routeStops.isLoading ? (
-              <div>{t('state.data_loading')}</div>
+              <SelectionMessage>
+                {t('state.data_loading')}
+              </SelectionMessage>
             ): routeStops.error ? (
-              <div>{t('error.generic')}</div>
+              <SelectionMessage>
+                {t('error.generic')}
+              </SelectionMessage>
             ) : !routeStops.data?.data.length ? (
-              <div>{t('error.no_route_stops')}</div>
+              <SelectionMessage>
+                <SelectionIndicator fontSize="large" />
+                {t('error.no_route_stops')}
+              </SelectionMessage>
             ) : (
               <FormControl size="small">
+                {!selectedRouteStop && (
+                  <SelectionIndicator fontSize="large" />
+                )}
                 <InputLabel id="select-route-stop">
                   {t('input.stop_label')}
                 </InputLabel>
@@ -173,6 +193,26 @@ const FooterToggle = styled(Button)`
   }
 `;
 
+const SelectionIndicator = styled(SouthRoundedIcon)`
+  position: absolute;
+  top: -140px;
+  left: 20px;
+  opacity: 0.6;
+  margin: auto;
+  width: auto;
+  height: 125px;
+  text-align: center;
+  color: red;
+`;
+
+const SelectionMessage = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  min-height: 40px;
+`
+
 const SelectionContainer = styled.div`
   display: flex;
   align-items: center;
@@ -202,7 +242,7 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
     width: 100vw;
     font-size: 1rem;
 
-    > div {
+    > div > div > *:not(svg) {
       visibility: ${footerIsOpen ? 'visible' : 'hidden'};
       margin: 0 20px;
     }
