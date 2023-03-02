@@ -30,7 +30,8 @@
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
-    "eslint": "^8.32.0"
+    "eslint": "^8.32.0",
+    "eslint-plugin-i18next": "^6.0.0-2"
   },
   "scripts": {
     "start": ". ./.env ; react-scripts start",
@@ -42,7 +43,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:i18next/recommended"
     ]
   },
   "browserslist": {
