@@ -1,12 +1,9 @@
-import {Fragment, useMemo, useState} from 'react';
+import {Fragment, useState} from 'react';
 import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {SelectChangeEvent} from '@mui/material/Select';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import SouthRoundedIcon from '@mui/icons-material/SouthRounded';
@@ -15,11 +12,11 @@ import {
   RouteTypeKeyName,
   Stop,
   UseRoutesData,
-  UseRouteStopData,
-  VehicleType
+  UseRouteStopData
 } from 'types';
-import {formatRouteDisplay, routeTypeToRouteTypeKeyName} from 'utils';
-import {RouteTypeIcon} from 'RouteTypeIcon';
+import {RouteSelect} from 'inputs/RouteSelect';
+import {RouteStopSelect} from 'inputs/RouteStopSelect';
+import {RouteTypeSelect} from 'inputs/RouteTypeSelect';
 
 type FooterProps = {
   routes: UseRoutesData;
@@ -58,48 +55,6 @@ export function Footer ({
     setFooterIsOpen(!footerIsOpen);
   }
 
-  type RoutesByType = {
-    [key: string]: Route[];
-  }
-
-  const routesByTypeKeyName = useMemo(() =>
-    routes.data?.data.reduce((routeGroups, route) => {
-      const routeTypeKey = routeTypeToRouteTypeKeyName(route.attributes.type);
-
-      const newRouteGroups = {
-        ...routeGroups,
-        [routeTypeKey]: routeGroups[routeTypeKey] ?
-          [...routeGroups[routeTypeKey], route] :
-          [route]
-      };
-
-      // Special exception for the Silver Line routes: *also* add it
-      // to the trains group, since it's commonly contextually relevant to
-      // the train lines
-      if (
-        route.attributes.short_name.match(/^SL[\w]$/i) &&
-        route.attributes.type === VehicleType.BUS
-      ) {
-        return {
-        ...routeGroups,
-        ...newRouteGroups,
-        [RouteTypeKeyName.TRAIN]: routeGroups[RouteTypeKeyName.TRAIN] ?
-          [...routeGroups[RouteTypeKeyName.TRAIN], route] :
-          [route]
-        }
-      };
-
-      return newRouteGroups;
-    }, {} as RoutesByType)
-  , [routes]);
-
-  const allRouteTypesIsSelected = selectedRouteType === RouteTypeKeyName.ALL
-  const groupedRouteData = (
-    selectedRouteType && selectedRouteType !== RouteTypeKeyName.ALL
-  ) ?
-    routesByTypeKeyName?.[selectedRouteType] :
-    routes.data?.data;
-
   return (
     <FooterContainer
       footerIsOpen={footerIsOpen}
@@ -122,84 +77,18 @@ export function Footer ({
           </SelectionMessage>
         ) : (
           <Fragment>
-            <FormControl size="small"> {/* Route Type Select */}
-              {!selectedRouteType && (
-                <SelectionIndicator fontSize="large" />
-              )}
-              <InputLabel id="select-route">
-                {t('input.route_type_label')}
-              </InputLabel>
-              <Select
-                autoWidth
-                error={!selectedRouteType}
-                label={t('input.route_type_label')}
-                labelId="select-route"
-                sx={{minWidth: 90, minHeight: 50}}
-                value={selectedRouteType || 'none'}
-                variant="outlined"
-                MenuProps={{transitionDuration: 0}}
-                onChange={handleRouteTypeSelection}
-              >
-                <MenuItem
-                  key="none"
-                  value="none"
-                  disabled
-                >
-                  {t('action_prompt.select_route_type_short')}
-                </MenuItem>
-                {Object.values(RouteTypeKeyName).map(key => (
-                  <MenuItem
-                    key={key}
-                    value={key}
-                  >
-                    <MenuItemValue>
-                      <RouteTypeIcon typeKey={key}/>
-                      {t(`input.${key}_label`)}
-                    </MenuItemValue>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <RouteTypeSelect
+              selectedRouteType={selectedRouteType}
+              handleRouteTypeSelection={handleRouteTypeSelection}
+            />
             {selectedRouteType && (
-              <FormControl size="small"> {/* Route Select */}
-                {!selectedRoute && (
-                  <SelectionIndicator fontSize="large" />
-                )}
-                <InputLabel id="select-route">
-                  {t('input.route_label')}
-                </InputLabel>
-                <Select
-                  autoWidth
-                  error={!selectedRoute || !routeStops.data?.data.length}
-                  label={t('input.route_label')}
-                  labelId="select-route"
-                  sx={{minWidth: 40, minHeight: 50}}
-                  value={selectedRoute || 'none'}
-                  variant="outlined"
-                  MenuProps={{transitionDuration: 0}}
-                  onChange={handleRouteSelection}
-                >
-                  <MenuItem
-                    key="none"
-                    value="none"
-                    disabled
-                  >
-                    {t('action_prompt.select_route_short')}
-                  </MenuItem>
-                  {/* Sorted by API by: type, long_name, description */}
-                  {groupedRouteData?.map(({attributes, id}) => (
-                    <MenuItem
-                      key={id}
-                      value={id}
-                    >
-                      {allRouteTypesIsSelected &&
-                        `(${attributes.description}) `
-                      }
-                      {formatRouteDisplay(attributes)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <RouteSelect
+                routes={routes}
+                routeStops={routeStops}
+                selectedRoute={selectedRoute}
+                selectedRouteType={selectedRouteType}
+                handleRouteSelection={handleRouteSelection}
+              />
             )}
             {!selectedRoute ? (
               null
@@ -219,41 +108,11 @@ export function Footer ({
                 {t('error.no_route_stops')}
               </SelectionMessage>
             ) : (
-              <FormControl size="small"> {/* Route Stop Select */}
-                {!selectedRouteStop && (
-                  <SelectionIndicator fontSize="large" />
-                )}
-                <InputLabel id="select-route-stop">
-                  {t('input.stop_label')}
-                </InputLabel>
-                <Select
-                  autoWidth
-                  error={!selectedRouteStop}
-                  label={t('input.stop_label')}
-                  labelId="select-route-stop"
-                  sx={{minWidth: 88, minHeight: 50, textAlign: 'left'}}
-                  value={selectedRouteStop || 'none'}
-                  variant="outlined"
-                  MenuProps={{transitionDuration: 0}}
-                  onChange={handleRouteStopSelection}
-                >
-                  <MenuItem
-                    key="none"
-                    value="none"
-                    disabled
-                  >
-                    {t('action_prompt.select_stop_short')}
-                  </MenuItem>
-                  {routeStops.data?.data?.map(({attributes, id}) => (
-                    <MenuItem
-                      key={id}
-                      value={id}
-                    >
-                      {attributes.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <RouteStopSelect
+                routeStops={routeStops}
+                selectedRouteStop={selectedRouteStop}
+                handleRouteStopSelection={handleRouteStopSelection}
+              />
             )}
           </Fragment>
         )}
@@ -277,18 +136,6 @@ export function Footer ({
     </FooterContainer>
   );
 }
-
-const MenuItemValue = styled.div`
-  display: flex;
-  align-items: center;
-  flex-flow: nowrap;
-
-  > svg {
-    margin-right: 6px;
-    width: auto;
-    height: 32px;
-  }
-`;
 
 const SelectionIndicator = styled(SouthRoundedIcon)`
   position: absolute;
