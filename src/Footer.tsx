@@ -73,7 +73,9 @@ export function Footer ({
     }, {} as RoutesByType)
   , [routes]);
 
-  const groupedRouteData = selectedRouteType ?
+  const groupedRouteData = (
+    selectedRouteType && selectedRouteType !== RouteTypeKeyName.ALL
+  ) ?
     routesByTypeKeyName?.[selectedRouteType] :
     routes.data?.data;
 
@@ -108,7 +110,7 @@ export function Footer ({
                 error={!selectedRouteType}
                 label={t('input.route_type_label')}
                 labelId="select-route"
-                sx={{minWidth: 40}}
+                sx={{minWidth: 90}}
                 value={selectedRouteType || 'none'}
                 variant="outlined"
                 MenuProps={{transitionDuration: 0}}
@@ -199,7 +201,7 @@ export function Footer ({
                   error={!selectedRouteStop}
                   label={t('input.stop_label')}
                   labelId="select-route-stop"
-                  sx={{minWidth: 40}}
+                  sx={{minWidth: 88, textAlign: 'left'}}
                   value={selectedRouteStop || 'none'}
                   variant="outlined"
                   MenuProps={{transitionDuration: 0}}
@@ -300,6 +302,7 @@ const SelectionContainer = styled.div`
   > div {
     margin-bottom: 20px;
     max-width: 45%;
+    text-align: left;
 
     &:not(:last-of-type) {
       margin-right: 10px;

@@ -23,6 +23,7 @@ export enum VehicleTypeKeyName {
 }
 
 export enum RouteTypeKeyName {
+  ALL = 'all',
   BUS = 'bus',
   COMMUTER_RAIL = 'commuter_rail',
   FERRY = 'ferry',

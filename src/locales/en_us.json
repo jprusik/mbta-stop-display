@@ -17,6 +17,7 @@
     "no_stop_information": "The information for this stop was unable to load."
   },
   "input": {
+    "all_label": "All",
     "bus_label": "Bus",
     "commuter_rail_label": "Commuter Rail",
     "ferry_label": "Ferry",
