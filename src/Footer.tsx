@@ -73,12 +73,11 @@ export function Footer ({
           [route]
       };
 
-      // Special exception for the Silver Line; *also* add it
+      // Special exception for the Silver Line routes: *also* add it
       // to the trains group, since it's commonly contextually relevant to
       // the train lines
       if (
-        route.id === '746' &&
-        route.attributes.short_name === 'SLW' &&
+        route.attributes.short_name.match(/^SL[\w]$/i) &&
         route.attributes.type === VehicleType.BUS
       ) {
         return {
