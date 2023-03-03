@@ -77,6 +77,8 @@ export function App() {
     <Fragment>
       <Body
         predictions={predictions}
+        routes={routes}
+        routeStops={routeStops}
         schedule={schedule}
         selectedRoute={selectedRoute}
         selectedRouteStop={selectedRouteStop}

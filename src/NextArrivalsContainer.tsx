@@ -12,7 +12,7 @@ import {getRelevantTimes} from 'utils';
 
 type NextArrivalsContainerProps = {
   predictionsData: Prediction[] | undefined;
-  routeAttributes: RouteAttributes;
+  routeAttributes?: RouteAttributes;
   scheduleData: Schedule[] | undefined;
 }
 
@@ -36,6 +36,13 @@ export function NextArrivalsContainer ({
   // stale and haven't been refreshed yet.
   useEffect(() => {
     function updateNewArrivalData () {
+      if (!routeAttributes) {
+        setArrivalData([]);
+        setArrivalDataIsLoading(false);
+
+        return;
+      }
+
       // Prediction data
       const relevantPredictionsData =
         getRelevantTimes(predictionsData || []);
@@ -54,6 +61,7 @@ export function NextArrivalsContainer ({
           relevantScheduleData[directionId]
         ))
       );
+
       setArrivalDataIsLoading(false);
     }
 
@@ -66,9 +74,9 @@ export function NextArrivalsContainer ({
       setInterval(updateNewArrivalData, 1000);
 
     return () => clearInterval(newArrivalDataInterval);
-  }, [predictionsData, scheduleData]);
+  }, [predictionsData, routeAttributes, scheduleData]);
 
-  return !!arrivalData.length ? (
+  return (arrivalData.length && routeAttributes) ? (
     <ArrivalsContainer>
       {/* Because we have the API return records sorted by
       `direction_id`, the order of these shouldn't change */}

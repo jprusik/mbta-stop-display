@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import {
   Route,
-  RouteAttributes,
   RouteTypeKeyName,
   Stop,
-  StopAttributes,
   UsePredictionData,
-  UseRouteScheduleData
+  UseRouteScheduleData,
+  UseRoutesData,
+  UseRouteStopData
 } from 'types';
 import {SkeletonHeader, SkeletonArrivals} from './Loaders';
 import {NextArrivalsContainer} from 'NextArrivalsContainer';
@@ -16,6 +16,8 @@ import {ActionSteps} from 'ActionSteps';
 
 type BodyProps = {
   predictions: UsePredictionData;
+  routes: UseRoutesData;
+  routeStops: UseRouteStopData;
   schedule: UseRouteScheduleData;
   selectedRoute?: Route['id'];
   selectedRouteStop?: Stop['id'];
@@ -24,6 +26,8 @@ type BodyProps = {
 
 export function Body({
   predictions,
+  routes,
+  routeStops,
   schedule,
   selectedRoute,
   selectedRouteStop,
@@ -33,8 +37,8 @@ export function Body({
 
   // Route data
   const routeAttributes = useMemo(() =>
-    schedule.data?.included?.find(({type}) => type === 'route')?.attributes as RouteAttributes
-  , [schedule]);
+    routes.data?.data.find(({id}) => id === selectedRoute)?.attributes
+  , [routes, selectedRoute]);
   const routeColor = routeAttributes?.color ?
     `#${routeAttributes.color}` : 'transparent';
   const routeTextColor = routeAttributes?.text_color ?
@@ -44,8 +48,8 @@ export function Body({
   // Note: more than one stop record may be returned if the place has
   // multiple berths
   const stopData = useMemo(() =>
-    schedule.data?.included?.find(({type}) => type === 'stop')?.attributes as StopAttributes
-  , [schedule]);
+    routeStops.data?.data.find(({id}) => id === selectedRouteStop)?.attributes
+  , [routeStops, selectedRouteStop]);
   const stopTitleIsAvailable = !!(
     routeAttributes?.description &&
     routeAttributes?.long_name &&
@@ -59,6 +63,18 @@ export function Body({
     }) :
     t('error.no_stop_information');
 
+  const dataIsLoading =
+    predictions.isLoading ||
+    routes.isLoading ||
+    routeStops.isLoading ||
+    schedule.isLoading;
+
+  const dataHasErrored =
+    predictions.error ||
+    routes.error ||
+    routeStops.error ||
+    schedule.error;
+
   return (
     <Container>
       {!selectedRouteType ? (
@@ -67,13 +83,13 @@ export function Body({
         <ActionSteps activeStep={1} />
       ) : !selectedRouteStop ? (
         <ActionSteps activeStep={2} />
-      ) : (predictions.isLoading || schedule.isLoading) ? (
+      ) : dataIsLoading ? (
         <Fragment>
           <SkeletonHeader variant="rectangular" />
           <SkeletonArrivals variant="rounded" />
           <SkeletonArrivals variant="rounded" />
         </Fragment>
-      ) : (predictions.error || schedule.error) ? (
+      ) : dataHasErrored ? (
         // @TODO better error feedback/messaging
         <CenterMessage>{t('error.generic')}</CenterMessage>
       ) : (

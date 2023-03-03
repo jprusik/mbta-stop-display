@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 import {
-  DataTypes,
   ResponseError,
   Route,
   ScheduleData,
@@ -8,10 +7,6 @@ import {
   UseRouteScheduleData
 } from 'types';
 import {API_KEY, REQUEST_DOMAIN} from '../constants';
-
-// @TODO remove the `stop` include here and re-use the data already loaded
-// for the stops selection input
-const REQUEST_INCLUDES = [DataTypes.ROUTE, DataTypes.STOP];
 
 export function useRouteSchedule (
   routeId?: Route['id'],
@@ -21,7 +16,7 @@ export function useRouteSchedule (
   const [error, setError] = useState<Error | ResponseError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const requestURL = `${REQUEST_DOMAIN}/schedules/?filter[route]=${routeId}&filter[stop]=${routeStopId}&include=${REQUEST_INCLUDES.join(',')}&sort=direction_id,departure_time`;
+  const requestURL = `${REQUEST_DOMAIN}/schedules/?filter[route]=${routeId}&filter[stop]=${routeStopId}&sort=direction_id,departure_time`;
 
   function refetch () {
     setData(null);
