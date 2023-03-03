@@ -18,7 +18,7 @@ import {
   UseRouteStopData,
   VehicleType
 } from 'types';
-import {routeTypeToRouteTypeKeyName} from 'utils';
+import {formatRouteDisplay, routeTypeToRouteTypeKeyName} from 'utils';
 import {RouteTypeIcon} from 'RouteTypeIcon';
 
 type FooterProps = {
@@ -93,6 +93,7 @@ export function Footer ({
     }, {} as RoutesByType)
   , [routes]);
 
+  const allRouteTypesIsSelected = selectedRouteType === RouteTypeKeyName.ALL
   const groupedRouteData = (
     selectedRouteType && selectedRouteType !== RouteTypeKeyName.ALL
   ) ?
@@ -191,7 +192,10 @@ export function Footer ({
                       key={id}
                       value={id}
                     >
-                      {`(${attributes.description}) ${attributes.long_name}`}
+                      {allRouteTypesIsSelected &&
+                        `(${attributes.description}) `
+                      }
+                      {formatRouteDisplay(attributes)}
                     </MenuItem>
                   ))}
                 </Select>

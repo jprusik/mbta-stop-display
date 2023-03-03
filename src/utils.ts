@@ -3,6 +3,7 @@ import {
   DataTypes,
   Prediction,
   PredictionAttributes,
+  RouteAttributes,
   RouteTypeKeyName,
   Schedule,
   ScheduleAttributes,
@@ -94,6 +95,29 @@ export function getArrivalTextKey (
         }
       : {translationKey: 'state.arrival_currently_unknown'} // should be unreachable
   );
+}
+
+export function formatRouteDisplay(attributes: RouteAttributes): string {
+  switch (attributes.type) {
+    case VehicleType.LIGHT_RAIL:
+      return attributes.long_name;
+      // e.g. "Green Line E"
+    case VehicleType.HEAVY_RAIL:
+      return attributes.long_name;
+      // e.g. "Red Line"
+    case VehicleType.COMMUTER_RAIL:
+      return attributes.long_name;
+      // e.g. "Needham Line"
+    case VehicleType.BUS:
+      return `${attributes.short_name} - ${attributes.long_name}`;
+      // e.g. "80 - "Arlington Center - Lechmere Station"
+    case VehicleType.FERRY:
+      return attributes.long_name;
+      // e.g. "Hingham/Hull Ferry"
+    default:
+      return `(${attributes.description}) ${attributes.long_name}`;
+      // e.g. "(Local Bus) Arlington Center - Lechmere Station"
+  }
 }
 
 export function vehicleTypeToVehicleKeyName (

@@ -7,7 +7,7 @@ export function useRoutes (): UseRoutesData {
   const [error, setError] = useState<Error | ResponseError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const requestURL = `${REQUEST_DOMAIN}/routes/?sort=type,long_name,description`;
+  const requestURL = `${REQUEST_DOMAIN}/routes/?sort=type,short_name,long_name,description`;
 
   function refetch () {
     setData(null);
