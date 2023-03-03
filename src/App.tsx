@@ -53,6 +53,9 @@ export function App() {
     setSelectedRouteType(newRouteTypeSelection);
     setSelectedRoute(undefined);
     setSelectedRouteStop(undefined);
+    routes.refetch();
+    routeStops.refetch();
+    predictions.refetch();
   }
 
   async function handleRouteSelection (event: SelectChangeEvent) {
