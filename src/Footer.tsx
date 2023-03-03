@@ -15,7 +15,8 @@ import {
   RouteTypeKeyName,
   Stop,
   UseRoutesData,
-  UseRouteStopData
+  UseRouteStopData,
+  VehicleType
 } from 'types';
 import {routeTypeToRouteTypeKeyName} from 'utils';
 import {RouteTypeIcon} from 'RouteTypeIcon';
@@ -62,15 +63,34 @@ export function Footer ({
   }
 
   const routesByTypeKeyName = useMemo(() =>
-    routes.data?.data.reduce((acc, route) => {
+    routes.data?.data.reduce((routeGroups, route) => {
       const routeTypeKey = routeTypeToRouteTypeKeyName(route.attributes.type);
 
-      return {
-        ...acc,
-        [routeTypeKey]: acc[routeTypeKey] ?
-          [...acc[routeTypeKey], route] :
+      const newRouteGroups = {
+        ...routeGroups,
+        [routeTypeKey]: routeGroups[routeTypeKey] ?
+          [...routeGroups[routeTypeKey], route] :
           [route]
       };
+
+      // Special exception for the Silver Line; *also* add it
+      // to the trains group, since it's commonly contextually relevant to
+      // the train lines
+      if (
+        route.id === '746' &&
+        route.attributes.short_name === 'SLW' &&
+        route.attributes.type === VehicleType.BUS
+      ) {
+        return {
+        ...routeGroups,
+        ...newRouteGroups,
+        [RouteTypeKeyName.TRAIN]: routeGroups[RouteTypeKeyName.TRAIN] ?
+          [...routeGroups[RouteTypeKeyName.TRAIN], route] :
+          [route]
+        }
+      };
+
+      return newRouteGroups;
     }, {} as RoutesByType)
   , [routes]);
 
