@@ -18,6 +18,7 @@ import {
   UseRouteStopData
 } from 'types';
 import {routeTypeToRouteTypeKeyName} from 'utils';
+import {RouteTypeIcon} from 'RouteTypeIcon';
 
 type FooterProps = {
   routes: UseRoutesData;
@@ -110,7 +111,7 @@ export function Footer ({
                 error={!selectedRouteType}
                 label={t('input.route_type_label')}
                 labelId="select-route"
-                sx={{minWidth: 90}}
+                sx={{minWidth: 90, minHeight: 50}}
                 value={selectedRouteType || 'none'}
                 variant="outlined"
                 MenuProps={{transitionDuration: 0}}
@@ -128,7 +129,10 @@ export function Footer ({
                     key={key}
                     value={key}
                   >
-                    {t(`input.${key}_label`)}
+                    <MenuItemValue>
+                      <RouteTypeIcon typeKey={key}/>
+                      {t(`input.${key}_label`)}
+                    </MenuItemValue>
                   </MenuItem>
                 ))}
               </Select>
@@ -146,7 +150,7 @@ export function Footer ({
                   error={!selectedRoute || !routeStops.data?.data.length}
                   label={t('input.route_label')}
                   labelId="select-route"
-                  sx={{minWidth: 40}}
+                  sx={{minWidth: 40, minHeight: 50}}
                   value={selectedRoute || 'none'}
                   variant="outlined"
                   MenuProps={{transitionDuration: 0}}
@@ -201,7 +205,7 @@ export function Footer ({
                   error={!selectedRouteStop}
                   label={t('input.stop_label')}
                   labelId="select-route-stop"
-                  sx={{minWidth: 88, textAlign: 'left'}}
+                  sx={{minWidth: 88, minHeight: 50, textAlign: 'left'}}
                   value={selectedRouteStop || 'none'}
                   variant="outlined"
                   MenuProps={{transitionDuration: 0}}
@@ -248,29 +252,15 @@ export function Footer ({
   );
 }
 
-const FooterToggle = styled(Button)`
-  margin: 0;
-  position: absolute;
-  top: -28px;
-  right: 0;
-  text-transform: none;
-  color: #FFF;
-  padding: 0;
-  border: 2px solid transparent;
+const MenuItemValue = styled.div`
+  display: flex;
+  align-items: center;
+  flex-flow: nowrap;
 
-  :hover,
-  :active,
-  :focus-visible {
-    color: #a0cbf5;
-    background: none;
-  }
-
-  :focus-visible {
-    border-color: #a0cbf5;
-  }
-
-  > span {
-    margin: 0;
+  > svg {
+    margin-right: 6px;
+    width: auto;
+    height: 32px;
   }
 `;
 
@@ -310,11 +300,37 @@ const SelectionContainer = styled.div`
   }
 `;
 
+const FooterToggle = styled(Button)`
+  margin: 0;
+  position: absolute;
+  top: -28px;
+  right: 0;
+  text-transform: none;
+  color: #FFF;
+  padding: 0;
+  border: 2px solid transparent;
+
+  :hover,
+  :active,
+  :focus-visible {
+    color: #a0cbf5;
+    background: none;
+  }
+
+  :focus-visible {
+    border-color: #a0cbf5;
+  }
+
+  > span {
+    margin: 0;
+  }
+`;
+
 const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
   ${({footerIsOpen}) => `
     display: flex;
     position: fixed;
-    bottom: ${footerIsOpen ? '0' : '-70px'};
+    bottom: ${footerIsOpen ? '0' : '-80px'};
     justify-content: flex-start;
     margin: 0 auto;
     border-top: 1px solid #666;
