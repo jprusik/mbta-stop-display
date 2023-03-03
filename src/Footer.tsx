@@ -101,7 +101,10 @@ export function Footer ({
     routes.data?.data;
 
   return (
-    <FooterContainer footerIsOpen={footerIsOpen}>
+    <FooterContainer
+      footerIsOpen={footerIsOpen}
+      className="footerContainer"
+    >
       <SelectionContainer>
         {routes.isLoading ? (
           <SelectionMessage>
@@ -305,6 +308,8 @@ const SelectionMessage = styled.div`
 
 const SelectionContainer = styled.div`
   display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
   align-items: center;
   padding-top: 20px;
   width: 100%;
@@ -350,7 +355,7 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
   ${({footerIsOpen}) => `
     display: flex;
     position: fixed;
-    bottom: ${footerIsOpen ? '0' : '-80px'};
+    bottom: ${footerIsOpen ? '0' : '-30px'};
     justify-content: flex-start;
     margin: 0 auto;
     border-top: 1px solid #666;
@@ -363,7 +368,7 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
       margin: 0 20px;
 
       > div > *:not(svg) {
-        visibility: ${footerIsOpen ? 'visible' : 'hidden'};
+        ${!footerIsOpen ? 'display: none;' : ''}
       }
     }
   `}

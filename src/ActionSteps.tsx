@@ -23,7 +23,7 @@ export function ActionSteps({
   const {t} = useTranslation();
 
   // Do not show steps beyond the active one
-  const cappedSteps = steps.filter((e, i) => i <= activeStep);
+  const cappedSteps = steps.filter((_, i) => i <= activeStep);
 
   return (
     <StepperContainer>
@@ -45,7 +45,8 @@ export function ActionSteps({
 
 const StepperContainer = styled.div`
   margin: 30vh auto 0 auto;
-  max-width: 420px;
+  max-width: 320px;
+  padding: 0;
 `;
 
 // Completed steps should be de-emphasized
