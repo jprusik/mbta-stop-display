@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {
   Route,
   RouteAttributes,
+  RouteTypeKeyName,
   Stop,
   StopAttributes,
   UsePredictionData,
@@ -18,13 +19,15 @@ type BodyProps = {
   schedule: UseRouteScheduleData;
   selectedRoute?: Route['id'];
   selectedRouteStop?: Stop['id'];
+  selectedRouteType?: RouteTypeKeyName;
 }
 
 export function Body({
   predictions,
   schedule,
   selectedRoute,
-  selectedRouteStop
+  selectedRouteStop,
+  selectedRouteType
 }: BodyProps): JSX.Element {
   const {t} = useTranslation();
 
@@ -58,10 +61,12 @@ export function Body({
 
   return (
     <Container>
-      {!selectedRoute ? (
+      {!selectedRouteType ? (
         <ActionSteps activeStep={0} />
-      ) : !selectedRouteStop ? (
+      ) : !selectedRoute ? (
         <ActionSteps activeStep={1} />
+      ) : !selectedRouteStop ? (
+        <ActionSteps activeStep={2} />
       ) : (predictions.isLoading || schedule.isLoading) ? (
         <Fragment>
           <SkeletonHeader variant="rectangular" />

@@ -7,7 +7,7 @@ import {
   RouteAttributes,
   ScheduleAttributes
 } from 'types';
-import {getArrivalTextKey, routeTypeToVehicleName} from 'utils';
+import {getArrivalTextKey, vehicleTypeToVehicleKeyName} from 'utils';
 
 type NextArrivalProps = {
   attributes: PredictionAttributes | ScheduleAttributes;
@@ -32,7 +32,7 @@ export function NextArrival ({
     getArrivalTextKey(attributes, type, route.type);
 
   const vehicleTypeKey = useMemo(() =>
-    routeTypeToVehicleName(route.type),
+    vehicleTypeToVehicleKeyName(route.type),
     [route]
   );
 

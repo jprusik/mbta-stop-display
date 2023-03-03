@@ -7,6 +7,9 @@ import {useTranslation} from 'react-i18next';
 
 const steps = [
   {
+    stepKey: 'action_prompt.select_route_type'
+  },
+  {
     stepKey: 'action_prompt.select_route'
   },
   {

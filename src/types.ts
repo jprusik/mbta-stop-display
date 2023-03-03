@@ -16,6 +16,19 @@ export enum DataTypes {
   VEHICLE = 'vehicle'
 }
 
+export enum VehicleTypeKeyName {
+  BUS = 'bus',
+  FERRY = 'ferry',
+  TRAIN = 'train'
+}
+
+export enum RouteTypeKeyName {
+  BUS = 'bus',
+  COMMUTER_RAIL = 'commuter_rail',
+  FERRY = 'ferry',
+  TRAIN = 'train'
+}
+
 // Called `vehicle_type` on `stop` model, `type` on `route` model
 export enum VehicleType {
   LIGHT_RAIL = 0,
@@ -48,6 +61,9 @@ export type PredictionAttributes = {
 export type Prediction = {
   attributes: PredictionAttributes;
   id: string;
+  links: {
+    self: string;
+  },
   relationships: PredictionRelationships;
   type: DataTypes.PREDICTION;
 }
@@ -87,6 +103,9 @@ export type ScheduleAttributes = {
 export type Schedule = {
   attributes: ScheduleAttributes;
   id: string;
+  links: {
+    self: string;
+  },
   relationships: ScheduleRelationships;
   type: DataTypes.SCHEDULE;
 }

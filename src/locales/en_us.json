@@ -1,6 +1,8 @@
 {
   "action_prompt": {
     "select_route_short": "Select a route",
+    "select_route_type_short": "Select a route type",
+    "select_route_type": "Please select a route type.",
     "select_route": "Please select a route.",
     "select_stop_short": "Select a stop",
     "select_stop": "Please select a route stop.",
@@ -13,11 +15,15 @@
     "no_route_stops": "There are no stops for this route.",
     "no_routes_information": "The routes information was unable to load.",
     "no_stop_information": "The information for this stop was unable to load."
-
   },
   "input": {
+    "bus_label": "Bus",
+    "commuter_rail_label": "Commuter Rail",
+    "ferry_label": "Ferry",
     "route_label": "Route",
-    "stop_label": "Route Stop"
+    "route_type_label": "Route Type",
+    "stop_label": "Route Stop",
+    "train_label": "Train"
   },
   "state": {
     "arrival_and_departure_bus_prediction": "The bus will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",

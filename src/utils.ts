@@ -3,9 +3,11 @@ import {
   DataTypes,
   Prediction,
   PredictionAttributes,
+  RouteTypeKeyName,
   Schedule,
   ScheduleAttributes,
-  VehicleType
+  VehicleType,
+  VehicleTypeKeyName
 } from 'types';
 
 type RelevantArrivals = {
@@ -74,7 +76,7 @@ export function getArrivalTextKey (
   not in the future are filtered out upstream.
   */
   const arrivalIsInFuture = arrivalTime.isAfter(now);
-  const routeVehicleKeyName = routeTypeToVehicleName(routeTypeId);
+  const routeVehicleKeyName = vehicleTypeToVehicleKeyName(routeTypeId);
 
   return attributes.status ? {
     // `status` is a en-US string returned from the API
@@ -94,17 +96,36 @@ export function getArrivalTextKey (
   );
 }
 
-export function routeTypeToVehicleName (typeId: VehicleType): string {
+export function vehicleTypeToVehicleKeyName (
+  typeId: VehicleType
+): VehicleTypeKeyName {
     switch (typeId) {
       case VehicleType.LIGHT_RAIL:
-        return 'train';
+        return VehicleTypeKeyName.TRAIN;
       case VehicleType.HEAVY_RAIL:
-        return 'train';
+        return VehicleTypeKeyName.TRAIN;
       case VehicleType.COMMUTER_RAIL:
-        return 'train';
+        return VehicleTypeKeyName.TRAIN;
       case VehicleType.BUS:
-        return 'bus';
+        return VehicleTypeKeyName.BUS;
       case VehicleType.FERRY:
-        return 'ferry';
+        return VehicleTypeKeyName.FERRY;
+    }
+}
+
+export function routeTypeToRouteTypeKeyName (
+  typeId: VehicleType
+): RouteTypeKeyName {
+    switch (typeId) {
+      case VehicleType.LIGHT_RAIL:
+        return RouteTypeKeyName.TRAIN;
+      case VehicleType.HEAVY_RAIL:
+        return RouteTypeKeyName.TRAIN;
+      case VehicleType.COMMUTER_RAIL:
+        return RouteTypeKeyName.COMMUTER_RAIL;
+      case VehicleType.BUS:
+        return RouteTypeKeyName.BUS;
+      case VehicleType.FERRY:
+        return RouteTypeKeyName.FERRY;
     }
 }

@@ -1,6 +1,6 @@
 import {Fragment, useEffect, useState} from 'react';
-import {Route, Stop} from 'types';
 import {SelectChangeEvent} from '@mui/material/Select';
+import {Route, RouteTypeKeyName, Stop} from 'types';
 import {DATA_REFETCH_INTERVAL, ROUTE, ROUTE_STOP} from './constants';
 import {
   useRoutePredictions,
@@ -14,6 +14,8 @@ import {Footer} from 'Footer';
 export function App() {
   // @TODO store selections in localStorage and check for localStorage
   // values upon page reload
+  const [selectedRouteType, setSelectedRouteType] =
+    useState<RouteTypeKeyName | undefined>();
   const [selectedRoute, setSelectedRoute] =
     useState<Route['id'] | undefined>(ROUTE);
   const [selectedRouteStop, setSelectedRouteStop] =
@@ -46,9 +48,16 @@ export function App() {
     }
   }, [selectedRoute, selectedRouteStop]);
 
+  async function handleRouteTypeSelection (event: SelectChangeEvent) {
+    const newRouteTypeSelection = event.target.value as RouteTypeKeyName;
+    setSelectedRouteType(newRouteTypeSelection);
+    setSelectedRoute(undefined);
+    setSelectedRouteStop(undefined);
+  }
+
   async function handleRouteSelection (event: SelectChangeEvent) {
-    const newRouteSelectionId = event.target.value;
-    setSelectedRoute(newRouteSelectionId);
+    const newRouteIdSelection = event.target.value;
+    setSelectedRoute(newRouteIdSelection);
     setSelectedRouteStop(undefined);
 
     if (routeStops.data && selectedRoute) {
@@ -57,8 +66,8 @@ export function App() {
   }
 
   function handleRouteStopSelection (event: SelectChangeEvent) {
-    const newRouteStopSelectionId = event.target.value;
-    setSelectedRouteStop(newRouteStopSelectionId);
+    const newRouteStopIdSelection = event.target.value;
+    setSelectedRouteStop(newRouteStopIdSelection);
   }
 
   return (
@@ -68,14 +77,17 @@ export function App() {
         schedule={schedule}
         selectedRoute={selectedRoute}
         selectedRouteStop={selectedRouteStop}
+        selectedRouteType={selectedRouteType}
       />
       <Footer
         routes={routes}
         routeStops={routeStops}
         selectedRoute={selectedRoute}
         selectedRouteStop={selectedRouteStop}
+        selectedRouteType={selectedRouteType}
         handleRouteSelection={handleRouteSelection}
         handleRouteStopSelection={handleRouteStopSelection}
+        handleRouteTypeSelection={handleRouteTypeSelection}
       />
     </Fragment>
   );
