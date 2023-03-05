@@ -228,9 +228,11 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
     font-size: 1rem;
 
     > div {
-      margin: 0 20px;
+      padding-right: 20px;
+      padding-left: 20px;
 
-      > div > *:not(svg) {
+      > div > *:not(svg),
+      button {
         ${!footerIsOpen ? 'display: none;' : ''}
       }
     }
