@@ -8,6 +8,6 @@ export const MenuItemValue = styled.div`
   > svg {
     margin-right: 6px;
     width: auto;
-    height: 32px;
+    height: 24px;
   }
 `;

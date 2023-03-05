@@ -166,7 +166,6 @@ const SelectionContainer = styled.div`
 
   > div {
     margin-bottom: 20px;
-    max-width: 45%;
     text-align: left;
 
     &:not(:last-of-type) {
