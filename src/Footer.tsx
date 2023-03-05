@@ -19,6 +19,7 @@ import {RouteStopSelect} from 'inputs/RouteStopSelect';
 import {RouteTypeSelect} from 'inputs/RouteTypeSelect';
 
 type FooterProps = {
+  resetSelections: () => void;
   routes: UseRoutesData;
   routeStops: UseRouteStopData;
   selectedRoute?: Route['id'];
@@ -39,6 +40,7 @@ type FooterProps = {
 }
 
 export function Footer ({
+  resetSelections,
   routes,
   routeStops,
   selectedRoute,
@@ -46,7 +48,7 @@ export function Footer ({
   selectedRouteType,
   handleRouteSelection,
   handleRouteStopSelection,
-  handleRouteTypeSelection
+  handleRouteTypeSelection,
 }: FooterProps): JSX.Element {
   const {t} = useTranslation();
   const [footerIsOpen, setFooterIsOpen] = useState(true);
@@ -116,6 +118,17 @@ export function Footer ({
             )}
           </Fragment>
         )}
+        <Button
+          disabled={
+            !selectedRoute &&
+            !selectedRouteStop &&
+            !selectedRouteType
+          }
+          sx={{minHeight: 50}}
+          onClick={resetSelections}
+        >
+          {t('action_prompt.reset')}
+        </Button>
       </SelectionContainer>
       <FooterToggle
         disableFocusRipple={true}
@@ -164,11 +177,12 @@ const SelectionContainer = styled.div`
   padding-top: 20px;
   width: 100%;
 
-  > div {
+  > div,
+  > button {
     margin-bottom: 20px;
     text-align: left;
 
-    &:not(:last-of-type) {
+    &:not(:last-child) {
       margin-right: 10px;
     }
   }

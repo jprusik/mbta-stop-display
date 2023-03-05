@@ -15,11 +15,18 @@ export function App() {
   // @TODO store selections in localStorage and check for localStorage
   // values upon page reload
   const [selectedRouteType, setSelectedRouteType] =
-    useState<RouteTypeKeyName | undefined>();
+    useState<RouteTypeKeyName | undefined>(
+      localStorage.getItem('selectedRouteType') as RouteTypeKeyName ||
+      undefined
+    );
   const [selectedRoute, setSelectedRoute] =
-    useState<Route['id'] | undefined>(ROUTE);
+    useState<Route['id'] | undefined>(
+      localStorage.getItem('selectedRoute') || ROUTE
+    );
   const [selectedRouteStop, setSelectedRouteStop] =
-    useState<Stop['id'] | undefined>(ROUTE_STOP);
+    useState<Stop['id'] | undefined>(
+      localStorage.getItem('selectedRouteStop') || ROUTE_STOP
+    );
 
   const routes = useRoutes();
   const routeStops = useRouteStops(selectedRoute);
@@ -51,8 +58,11 @@ export function App() {
   async function handleRouteTypeSelection (event: SelectChangeEvent) {
     const newRouteTypeSelection = event.target.value as RouteTypeKeyName;
     setSelectedRouteType(newRouteTypeSelection);
+    localStorage.setItem('selectedRouteType', newRouteTypeSelection);
     setSelectedRoute(undefined);
+    localStorage.removeItem('selectedRoute');
     setSelectedRouteStop(undefined);
+    localStorage.removeItem('selectedRouteStop');
     routes.refetch();
     routeStops.refetch();
     predictions.refetch();
@@ -61,7 +71,9 @@ export function App() {
   async function handleRouteSelection (event: SelectChangeEvent) {
     const newRouteIdSelection = event.target.value;
     setSelectedRoute(newRouteIdSelection);
+    localStorage.setItem('selectedRoute', newRouteIdSelection);
     setSelectedRouteStop(undefined);
+    localStorage.removeItem('selectedRouteStop');
 
     if (routeStops.data && selectedRoute) {
       routeStops.refetch();
@@ -71,6 +83,16 @@ export function App() {
   function handleRouteStopSelection (event: SelectChangeEvent) {
     const newRouteStopIdSelection = event.target.value;
     setSelectedRouteStop(newRouteStopIdSelection);
+    localStorage.setItem('selectedRouteStop', newRouteStopIdSelection);
+  }
+
+  function resetSelections () {
+    setSelectedRouteType(undefined);
+    localStorage.removeItem('selectedRouteType');
+    setSelectedRoute(undefined);
+    localStorage.removeItem('selectedRoute');
+    setSelectedRouteStop(undefined);
+    localStorage.removeItem('selectedRouteStop');
   }
 
   return (
@@ -85,6 +107,7 @@ export function App() {
         selectedRouteType={selectedRouteType}
       />
       <Footer
+        resetSelections={resetSelections}
         routes={routes}
         routeStops={routeStops}
         selectedRoute={selectedRoute}

@@ -1,5 +1,6 @@
 {
   "action_prompt": {
+    "reset": "Reset",
     "select_route_short": "Select a route",
     "select_route_type_short": "Select a route type",
     "select_route_type": "Please select a route type.",
