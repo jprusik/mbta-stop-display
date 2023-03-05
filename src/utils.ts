@@ -153,3 +153,24 @@ export function routeTypeToRouteTypeKeyName (
         return RouteTypeKeyName.FERRY;
     }
 }
+
+export function parseBusNumberStringForSort (
+  busShortName: string
+): number {
+  // Example cases: "62/76", "34E", "SL1", "CT2"
+  const textEncoder = new TextEncoder();
+
+  /*
+  Effectively treat non-alphanumeric characters in the string, as well as
+  trailing non-numeric characters, as if they don't exist. Return the first
+  group of alphanumeric characters (only ending with numeric values) in the
+  string.
+  */
+  const relevantSubstring = busShortName.match(/^[A-Z]*[0-9]+/gi)?.[0];
+
+  // Convert the string to UTF-8 encoded text.
+  const numberString = textEncoder.encode(relevantSubstring).join('');
+
+  // Parse the string into base 10 integer for comparison in sorting.
+  return parseInt(numberString, 10);
+}

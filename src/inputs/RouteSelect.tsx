@@ -11,7 +11,11 @@ import {
   UseRouteStopData,
   VehicleType
 } from 'types';
-import {formatRouteDisplay, routeTypeToRouteTypeKeyName} from 'utils';
+import {
+  formatRouteDisplay,
+  parseBusNumberStringForSort,
+  routeTypeToRouteTypeKeyName
+} from 'utils';
 import {SelectionIndicator} from 'inputs/SelectionIndicator';
 
 type RoutesByType = {
@@ -69,11 +73,50 @@ export function RouteSelect({
     }, {} as RoutesByType)
   , [routes]);
 
+  // Sorts that are missing / not working from the API
+  const sortedRoutesByTypeKeyName = useMemo(() => {
+    if (!routesByTypeKeyName) {
+      return;
+    }
+
+    /*
+      Because the bus numbers are returned as strings, the API doesn't sort
+      the number values properly (e.g. "109", "11", "110").
+
+      Also, not all values are composed solely of numerical characters
+      (e.g. "62/76", 34E", "SL1", "CT2"). See `parseBusNumberString`
+      comments for parsing irregularly formatted values strategy.
+    */
+    const sortedBusesGroup =
+      routesByTypeKeyName[RouteTypeKeyName.BUS]
+        // map with sort value to avoid running
+        // `parseBusNumberStringForSort` more than once per record in sort
+        .map((busRoute) => ({
+          ...busRoute,
+          sortValue: parseBusNumberStringForSort(
+            busRoute.attributes.short_name
+          )
+        }))
+        .sort((a, b) => {
+          const previousRouteShortName =
+            parseBusNumberStringForSort(a.attributes.short_name);
+          const nextRouteShortName =
+            parseBusNumberStringForSort(b.attributes.short_name);
+
+          return previousRouteShortName < nextRouteShortName ? -1 : 0;
+        });
+
+    return {
+      ...routesByTypeKeyName,
+      [RouteTypeKeyName.BUS]: sortedBusesGroup
+    };
+  }, [routesByTypeKeyName]) as RoutesByType;
+
   const allRouteTypesIsSelected = selectedRouteType === RouteTypeKeyName.ALL;
   const groupedRouteData = (
     selectedRouteType && selectedRouteType !== RouteTypeKeyName.ALL
   ) ?
-    routesByTypeKeyName?.[selectedRouteType] :
+    sortedRoutesByTypeKeyName?.[selectedRouteType] :
     routes.data?.data;
 
   return (
