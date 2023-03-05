@@ -123,8 +123,19 @@ export type UseRouteScheduleData = {
   refetch: () => void;
 }
 
+export enum LineColors {
+  BLUE = '003DA5',
+  BUS = 'FFC72C',
+  COMMUTER = '80276C',
+  FERRY = '008EAA',
+  GREEN = '00843D',
+  ORANGE = 'ED8B00',
+  RED = 'DA291C',
+  SILVER = '7C878E'
+}
+
 export type RouteAttributes = {
-  color: string; // hex value, e.g. "FFFFFF"
+  color: LineColors; // hex value, e.g. "FFFFFF"
   description: string; // e.g. "Commuter Rail"
   direction_destinations: string[]; // e.g. ["Worcester", "S. Station"]
   direction_names: string[]; // e.g. ["Outbound", "Inbound"]

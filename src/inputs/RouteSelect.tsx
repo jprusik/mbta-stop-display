@@ -16,7 +16,9 @@ import {
   parseBusNumberStringForSort,
   routeTypeToRouteTypeKeyName
 } from 'utils';
+import {MenuItemValue} from 'inputs/MenuItemValue';
 import {SelectionIndicator} from 'inputs/SelectionIndicator';
+import {RouteIcon} from 'RouteIcon';
 
 type RoutesByType = {
   [key: string]: Route[];
@@ -106,8 +108,14 @@ export function RouteSelect({
           return previousRouteShortName < nextRouteShortName ? -1 : 0;
         });
 
+    // Group lines by color
+    const sortedTrainGroup =
+      routesByTypeKeyName[RouteTypeKeyName.TRAIN]
+        .sort((a, b) => a.attributes.color < b.attributes.color ? -1 : 0)
+
     return {
       ...routesByTypeKeyName,
+      [RouteTypeKeyName.TRAIN]: sortedTrainGroup,
       [RouteTypeKeyName.BUS]: sortedBusesGroup
     };
   }, [routesByTypeKeyName]) as RoutesByType;
@@ -145,16 +153,23 @@ export function RouteSelect({
         >
           {t('action_prompt.select_route_short')}
         </MenuItem>
-        {/* Sorted by API by: type, long_name, description */}
+        {/* API-sorted by: type, long_name, description */}
         {groupedRouteData?.map(({attributes, id}) => (
           <MenuItem
             key={id}
             value={id}
           >
-            {allRouteTypesIsSelected &&
-              `(${attributes.description}) `
-            }
-            {formatRouteDisplay(attributes)}
+            <MenuItemValue>
+              {allRouteTypesIsSelected ?
+                `(${attributes.description}) ` : (
+                  <RouteIcon
+                    color={attributes.color}
+                    id={id}
+                  />
+                )
+              }
+              {formatRouteDisplay(attributes)}
+            </MenuItemValue>
           </MenuItem>
         ))}
       </Select>
