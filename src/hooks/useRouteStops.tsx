@@ -15,7 +15,7 @@ export function useRouteStops (
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Ideally, we'd sort the stops by route order instead of name,
-  //  but that's unavailable AFAIK
+  // but that's unavailable AFAIK
   const requestURL = `${REQUEST_DOMAIN}/stops/?filter[route]=${routeId}&sort=name`;
 
   function refetch () {

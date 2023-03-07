@@ -1,26 +1,24 @@
+import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import {RouteTypeKeyName} from 'types';
+import {ActionHandlersContext} from 'contexts';
 import {RouteTypeIcon} from 'RouteTypeIcon';
 import {MenuItemValue} from 'inputs/MenuItemValue';
 import {SelectionIndicator} from 'inputs/SelectionIndicator';
 
 type RouteTypeSelectProps = {
   selectedRouteType?: RouteTypeKeyName;
-  handleRouteTypeSelection: (
-    event: SelectChangeEvent,
-    child?: React.ReactNode
-  ) => void;
 }
 
 export function RouteTypeSelect({
-  selectedRouteType,
-  handleRouteTypeSelection
+  selectedRouteType
 }: RouteTypeSelectProps): JSX.Element {
   const {t} = useTranslation();
+  const {handleRouteTypeSelection} = useContext(ActionHandlersContext);
 
   return (
     <FormControl size="small">

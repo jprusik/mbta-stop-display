@@ -1,26 +1,24 @@
+import {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import {Stop, UseRouteStopData} from 'types';
+import {ActionHandlersContext} from 'contexts';
 import {SelectionIndicator} from 'inputs/SelectionIndicator';
 
 type RouteStopSelectProps = {
   routeStops: UseRouteStopData;
   selectedRouteStop?: Stop['id'];
-  handleRouteStopSelection: (
-    event: SelectChangeEvent,
-    child?: React.ReactNode
-  ) => void;
 }
 
 export function RouteStopSelect({
   routeStops,
-  selectedRouteStop,
-  handleRouteStopSelection
+  selectedRouteStop
 }: RouteStopSelectProps): JSX.Element {
   const {t} = useTranslation();
+  const {handleRouteStopSelection} = useContext(ActionHandlersContext);
 
   return (
     <FormControl size="small">

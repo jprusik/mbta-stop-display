@@ -1,39 +1,29 @@
-import {Fragment, useMemo} from 'react';
+import {Fragment, useContext, useMemo} from 'react';
 import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import {
-  Route,
-  RouteTypeKeyName,
-  Stop,
-  UsePredictionData,
-  UseRouteScheduleData,
-  UseRoutesData,
-  UseRouteStopData
-} from 'types';
-import {SkeletonHeader, SkeletonArrivals} from './Loaders';
+  PredictionsContext,
+  RoutesContext,
+  ScheduleContext,
+  SelectionsContext,
+  StopsContext
+} from 'contexts';
+import {SkeletonHeader, SkeletonArrivals} from 'Loaders';
 import {NextArrivalsContainer} from 'NextArrivalsContainer';
 import {ActionSteps} from 'ActionSteps';
 
-type BodyProps = {
-  predictions: UsePredictionData;
-  routes: UseRoutesData;
-  routeStops: UseRouteStopData;
-  schedule: UseRouteScheduleData;
-  selectedRoute?: Route['id'];
-  selectedRouteStop?: Stop['id'];
-  selectedRouteType?: RouteTypeKeyName;
-}
-
-export function Body({
-  predictions,
-  routes,
-  routeStops,
-  schedule,
-  selectedRoute,
-  selectedRouteStop,
-  selectedRouteType
-}: BodyProps): JSX.Element {
+export function Body(): JSX.Element {
   const {t} = useTranslation();
+
+  const {
+    selectedRoute,
+    selectedRouteStop,
+    selectedRouteType
+  } = useContext(SelectionsContext);
+  const routes = useContext(RoutesContext);
+  const routeStops = useContext(StopsContext);
+  const predictions = useContext(PredictionsContext);
+  const schedule = useContext(ScheduleContext);
 
   // Route data
   const routeAttributes = useMemo(() =>
@@ -42,7 +32,7 @@ export function Body({
   const routeColor = routeAttributes?.color ?
     `#${routeAttributes.color}` : 'transparent';
   const routeTextColor = routeAttributes?.text_color ?
-    `#${routeAttributes.text_color}` : 'white';
+    `#${routeAttributes.text_color}` : '#FFF';
 
   // Stop data
   // Note: more than one stop record may be returned if the place has

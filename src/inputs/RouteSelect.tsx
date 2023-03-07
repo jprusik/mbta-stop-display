@@ -1,9 +1,9 @@
-import {useMemo} from 'react';
+import {useContext, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import {
   Route,
   RouteTypeKeyName,
@@ -11,6 +11,7 @@ import {
   UseRouteStopData,
   VehicleType
 } from 'types';
+import {ActionHandlersContext} from 'contexts';
 import {
   formatRouteDisplay,
   parseBusNumberStringForSort,
@@ -29,20 +30,16 @@ type RouteSelectProps = {
   routeStops: UseRouteStopData;
   selectedRoute?: Route['id'];
   selectedRouteType: RouteTypeKeyName;
-  handleRouteSelection: (
-    event: SelectChangeEvent,
-    child?: React.ReactNode
-  ) => void;
 }
 
 export function RouteSelect({
   routes,
   routeStops,
   selectedRoute,
-  selectedRouteType,
-  handleRouteSelection
+  selectedRouteType
 }: RouteSelectProps): JSX.Element {
   const {t} = useTranslation();
+  const {handleRouteSelection} = useContext(ActionHandlersContext);
 
   const routesByTypeKeyName = useMemo(() =>
     routes.data?.data.reduce((routeGroups, route) => {

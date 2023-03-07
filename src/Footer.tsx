@@ -1,56 +1,33 @@
-import {Fragment, useState} from 'react';
+import {Fragment, useContext, useState} from 'react';
 import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import {SelectChangeEvent} from '@mui/material/Select';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import SouthRoundedIcon from '@mui/icons-material/SouthRounded';
 import {
-  Route,
-  RouteTypeKeyName,
-  Stop,
-  UseRoutesData,
-  UseRouteStopData
-} from 'types';
+  ActionHandlersContext,
+  RoutesContext,
+  SelectionsContext,
+  StopsContext
+} from 'contexts';
 import {RouteSelect} from 'inputs/RouteSelect';
 import {RouteStopSelect} from 'inputs/RouteStopSelect';
 import {RouteTypeSelect} from 'inputs/RouteTypeSelect';
 
-type FooterProps = {
-  resetSelections: () => void;
-  routes: UseRoutesData;
-  routeStops: UseRouteStopData;
-  selectedRoute?: Route['id'];
-  selectedRouteStop?: Stop['id'];
-  selectedRouteType?: RouteTypeKeyName;
-  handleRouteSelection: (
-    event: SelectChangeEvent,
-    child?: React.ReactNode
-  ) => void;
-  handleRouteStopSelection: (
-    event: SelectChangeEvent,
-    child?: React.ReactNode
-  ) => void;
-  handleRouteTypeSelection: (
-    event: SelectChangeEvent,
-    child?: React.ReactNode
-  ) => void;
-}
-
-export function Footer ({
-  resetSelections,
-  routes,
-  routeStops,
-  selectedRoute,
-  selectedRouteStop,
-  selectedRouteType,
-  handleRouteSelection,
-  handleRouteStopSelection,
-  handleRouteTypeSelection,
-}: FooterProps): JSX.Element {
+export function Footer (): JSX.Element {
   const {t} = useTranslation();
+
+  const {
+    selectedRoute,
+    selectedRouteStop,
+    selectedRouteType
+  } = useContext(SelectionsContext);
+  const {resetSelections} = useContext(ActionHandlersContext);
+  const routes = useContext(RoutesContext);
+  const routeStops = useContext(StopsContext);
+
   const [footerIsOpen, setFooterIsOpen] = useState(true);
 
   function handleFooterToggle () {
@@ -79,17 +56,13 @@ export function Footer ({
           </SelectionMessage>
         ) : (
           <Fragment>
-            <RouteTypeSelect
-              selectedRouteType={selectedRouteType}
-              handleRouteTypeSelection={handleRouteTypeSelection}
-            />
+            <RouteTypeSelect selectedRouteType={selectedRouteType} />
             {selectedRouteType && (
               <RouteSelect
                 routes={routes}
                 routeStops={routeStops}
                 selectedRoute={selectedRoute}
                 selectedRouteType={selectedRouteType}
-                handleRouteSelection={handleRouteSelection}
               />
             )}
             {!selectedRoute ? (
@@ -113,7 +86,6 @@ export function Footer ({
               <RouteStopSelect
                 routeStops={routeStops}
                 selectedRouteStop={selectedRouteStop}
-                handleRouteStopSelection={handleRouteStopSelection}
               />
             )}
           </Fragment>
@@ -158,7 +130,7 @@ const SelectionIndicator = styled(SouthRoundedIcon)`
   width: auto;
   height: 125px;
   text-align: center;
-  color: #d8493f;
+  color: #D8493F;
 `;
 
 const SelectionMessage = styled.div`
@@ -189,24 +161,24 @@ const SelectionContainer = styled.div`
 `;
 
 const FooterToggle = styled(Button)`
-  margin: 0;
   position: absolute;
   top: -28px;
   right: 0;
+  margin: 0;
+  border: 2px solid transparent;
+  padding: 0;
   text-transform: none;
   color: #FFF;
-  padding: 0;
-  border: 2px solid transparent;
 
   :hover,
   :active,
   :focus-visible {
-    color: #a0cbf5;
     background: none;
+    color: #A0CBF5;
   }
 
   :focus-visible {
-    border-color: #a0cbf5;
+    border-color: #A0CBF5;
   }
 
   > span {
@@ -222,7 +194,7 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
     justify-content: flex-start;
     margin: 0 auto;
     border-top: 1px solid #666;
-    background-color: #22272e;
+    background-color: #22272E;
     padding: 0;
     width: 100vw;
     font-size: 1rem;

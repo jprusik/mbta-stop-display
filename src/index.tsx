@@ -8,7 +8,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './index.css';
 import './i18n';
-import {App} from './App';
+import {App} from 'App';
+import {ContextProviders} from 'ContextProviders';
 import reportWebVitals from './reportWebVitals';
 
 const darkTheme = createTheme({
@@ -31,7 +32,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <App />
+      <ContextProviders>
+        <App />
+      </ContextProviders>
     </ThemeProvider>
   </React.StrictMode>
 );

@@ -79,7 +79,7 @@ export function NextArrivalsContainer ({
   return (arrivalData.length && routeAttributes) ? (
     <ArrivalsContainer>
       {/* Because we have the API return records sorted by
-      `direction_id`, the order of these shouldn't change */}
+      `direction_id`, the order of these shouldn't change. */}
       {arrivalData.map(arrival => (
         <NextArrival
           key={arrival.id}
