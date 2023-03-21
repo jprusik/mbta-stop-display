@@ -6,7 +6,6 @@ import {
   SetStateAction
 } from 'react';
 import {Route, RouteTypeKeyName, Stop} from 'types';
-import {ROUTE, ROUTE_STOP, ROUTE_TYPE} from '../constants';
 
 interface SelectionsContextType {
   selectedRoute?: Route['id'];
@@ -31,16 +30,15 @@ export function SelectionsProvider (
 ): JSX.Element {
   const [selectedRouteType, setSelectedRouteType] =
     useState<RouteTypeKeyName | undefined>(
-      localStorage.getItem('selectedRouteType') as RouteTypeKeyName ||
-      ROUTE_TYPE
+      localStorage.getItem('selectedRouteType') as RouteTypeKeyName
     );
   const [selectedRoute, setSelectedRoute] =
     useState<Route['id'] | undefined>(
-      localStorage.getItem('selectedRoute') || ROUTE
+      localStorage.getItem('selectedRoute') as Route['id']
     );
   const [selectedRouteStop, setSelectedRouteStop] =
     useState<Stop['id'] | undefined>(
-      localStorage.getItem('selectedRouteStop') || ROUTE_STOP
+      localStorage.getItem('selectedRouteStop') as Stop['id']
     );
 
   const value = {
