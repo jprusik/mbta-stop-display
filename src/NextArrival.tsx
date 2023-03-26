@@ -68,9 +68,13 @@ const PredictionContainer = styled.div`
 
 const Header = styled.h2`
   margin: 0;
+  line-height: 1em;
   font-size: 28px;
+  font-size: 4.75vmin;
 `
 const ArrivalDescription = styled.div`
   margin: 8px auto;
+  line-height: 1.25em;
   font-size: 22px;
+  font-size: 3.25vmin;
 `

@@ -119,7 +119,9 @@ const Header = styled.h1<HeaderProps>`
   `}
   margin: 0;
   padding: 10px 10%;
+  line-height: 1em;
   font-size: 32px;
+  font-size: 4.75vmin;
 `;
 
 const CenterMessage = styled.div`
