@@ -169,7 +169,15 @@ export function parseBusNumberStringForSort (
   group of alphanumeric characters (only ending with numeric values) in the
   string.
   */
-  const relevantSubstring = busShortName.match(/^[A-Z]*[0-9]+/gi)?.[0];
+  let relevantSubstring = busShortName.match(/^[A-Z]*[0-9]+/gi)?.[0];
+
+  // If `busShortName` does not contain numbers, use the original value (e.g. "SLW")
+  if (!relevantSubstring) {
+    // @TODO This might need a revisit if any `busShortName` values
+    // start using a mixture of alpha and non-alpha characters without
+    // numbers.
+    relevantSubstring = busShortName;
+  }
 
   // Convert the string to UTF-8 encoded text.
   const numberString = textEncoder.encode(relevantSubstring).join('');

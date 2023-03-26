@@ -96,19 +96,11 @@ export function RouteSelect({
             busRoute.attributes.short_name
           )
         }))
-        .sort((a, b) => {
-          const previousRouteShortName =
-            parseBusNumberStringForSort(a.attributes.short_name);
-          const nextRouteShortName =
-            parseBusNumberStringForSort(b.attributes.short_name);
-
-          return previousRouteShortName < nextRouteShortName ? -1 : 0;
-        });
+        .sort((a, b) => a.sortValue < b.sortValue ? -1 : 1);
 
     // Group lines by color
-    const sortedTrainGroup =
-      routesByTypeKeyName[RouteTypeKeyName.TRAIN]
-        .sort((a, b) => a.attributes.color < b.attributes.color ? -1 : 0)
+    const sortedTrainGroup = routesByTypeKeyName[RouteTypeKeyName.TRAIN]
+      .sort((a, b) => a.attributes.color < b.attributes.color ? -1 : 1);
 
     return {
       ...routesByTypeKeyName,
