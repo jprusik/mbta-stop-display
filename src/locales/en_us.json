@@ -28,6 +28,7 @@
     "train_label": "Train"
   },
   "state": {
+    "additional_information_link": "Additional information",
     "arrival_and_departure_bus_prediction": "The bus will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
     "arrival_and_departure_bus_schedule": "The bus is scheduled to arrive in {{arrivalTime}} and leave in {{departureTime}}.",
     "arrival_and_departure_ferry_prediction": "The ferry will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
@@ -45,6 +46,8 @@
     "destination_header_bus": "The next bus to {{routeDestinationName}} ({{routeDirectionName}}):",
     "destination_header_ferry": "The next ferry to {{routeDestinationName}} ({{routeDirectionName}}):",
     "destination_header_train": "The next train to {{routeDestinationName}} ({{routeDirectionName}}):",
+    "last_updated_label": "Last updated:",
+    "service_alerts_count": "Service alerts ({{alertsCount}})",
     "stop_title": "{{routeDescription}} ({{routeLongName}}) at {{stopName}}"
   }
 }

@@ -19,6 +19,14 @@ const darkTheme = createTheme({
     mode: 'dark',
     background: {
       default: '#0A1929'
+    },
+    warning: {
+      main: '#ffc107',
+      dark: '#eeb400'
+    },
+    info: {
+      main: '#2086d7',
+      dark: '#1769aa'
     }
   },
 });

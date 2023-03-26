@@ -1,4 +1,5 @@
 export * from './actionHandlers';
+export * from './serviceAlerts';
 export * from './predictions';
 export * from './routes';
 export * from './schedule';

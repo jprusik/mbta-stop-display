@@ -5,6 +5,7 @@ import {
   PredictionsContext,
   RoutesContext,
   SelectionsContext,
+  ServiceAlertsContext,
   StopsContext
 } from 'contexts';
 
@@ -35,6 +36,8 @@ export function ActionHandlersProvider (
   const {refetch: routesRefetch} = useContext(RoutesContext);
   const {data: stopsData, refetch: stopsRefetch} = useContext(StopsContext);
   const predictions = useContext(PredictionsContext);
+  const {refetch: serviceAlertsRefetch} =
+    useContext(ServiceAlertsContext);
 
   function handleRouteTypeSelection (event: SelectChangeEvent) {
     const newRouteTypeSelection = event.target.value as RouteTypeKeyName;
@@ -55,6 +58,7 @@ export function ActionHandlersProvider (
     localStorage.setItem('selectedRoute', newRouteIdSelection);
     setSelectedRouteStop(undefined);
     localStorage.removeItem('selectedRouteStop');
+    serviceAlertsRefetch();
 
     if (stopsData && selectedRoute) {
       stopsRefetch();

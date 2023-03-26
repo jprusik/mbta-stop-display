@@ -6,11 +6,13 @@ import {
   RoutesContext,
   ScheduleContext,
   SelectionsContext,
+  ServiceAlertsContext,
   StopsContext
 } from 'contexts';
 import {SkeletonHeader, SkeletonArrivals} from 'Loaders';
 import {NextArrivalsContainer} from 'NextArrivalsContainer';
 import {ActionSteps} from 'ActionSteps';
+import {ServiceAlerts} from 'ServiceAlerts';
 
 export function Body(): JSX.Element {
   const {t} = useTranslation();
@@ -20,6 +22,7 @@ export function Body(): JSX.Element {
     selectedRouteStop,
     selectedRouteType
   } = useContext(SelectionsContext);
+  const serviceAlerts = useContext(ServiceAlertsContext);
   const routes = useContext(RoutesContext);
   const routeStops = useContext(StopsContext);
   const predictions = useContext(PredictionsContext);
@@ -90,6 +93,9 @@ export function Body(): JSX.Element {
           >
             {stopTitle}
           </Header>
+          {!!serviceAlerts?.data?.data?.length && (
+            <ServiceAlerts alerts={serviceAlerts?.data?.data} />
+          )}
           <NextArrivalsContainer
             predictionsData={predictions.data?.data}
             routeAttributes={routeAttributes}

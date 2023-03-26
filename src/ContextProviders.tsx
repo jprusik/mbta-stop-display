@@ -4,6 +4,7 @@ import {
   RoutesProvider,
   ScheduleProvider,
   SelectionsProvider,
+  ServiceAlertsProvider,
   StopsProvider
 } from 'contexts';
 
@@ -14,13 +15,15 @@ export function ContextProviders ({
     <SelectionsProvider>
       <RoutesProvider>
         <StopsProvider>
-          <ScheduleProvider>
-            <PredictionsProvider>
-              <ActionHandlersProvider>
-                {children}
-              </ActionHandlersProvider>
-            </PredictionsProvider>
-          </ScheduleProvider>
+          <ServiceAlertsProvider>
+            <ScheduleProvider>
+              <PredictionsProvider>
+                <ActionHandlersProvider>
+                  {children}
+                </ActionHandlersProvider>
+              </PredictionsProvider>
+            </ScheduleProvider>
+          </ServiceAlertsProvider>
         </StopsProvider>
       </RoutesProvider>
     </SelectionsProvider>
