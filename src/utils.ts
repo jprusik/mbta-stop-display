@@ -59,6 +59,7 @@ type ArrivalTextData = {
   translationKey: string;
   arrivalTime?: string;
   departureTime?: string;
+  untranslatedPassthrough?: string;
 }
 
 export function getArrivalTextKey (
@@ -80,8 +81,10 @@ export function getArrivalTextKey (
   const routeVehicleKeyName = vehicleTypeToVehicleKeyName(routeTypeId);
 
   return attributes.status ? {
-    // `status` is a en-US string returned from the API
-    translationKey: attributes.status
+    // `status` is a en-US string returned from the API,
+    // so we have no way to translate it authoritatively
+    translationKey: `state.untranslated_api_override`,
+    untranslatedPassthrough: attributes.status
   } : (
     attributes.departure_time ?
       (attributes.arrival_time && arrivalIsInFuture) ?

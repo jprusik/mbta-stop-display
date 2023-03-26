@@ -48,6 +48,7 @@
     "destination_header_train": "The next train to {{routeDestinationName}} ({{routeDirectionName}}):",
     "last_updated_label": "Last updated:",
     "service_alerts_count": "Service alerts ({{alertsCount}})",
-    "stop_title": "{{routeDescription}} ({{routeLongName}}) at {{stopName}}"
+    "stop_title": "{{routeDescription}} ({{routeLongName}}) at {{stopName}}",
+    "untranslated_api_override": "{{untranslatedPassthrough}}"
   }
 }

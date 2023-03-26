@@ -1,5 +1,5 @@
-import Skeleton from '@mui/material/Skeleton';
 import styled from '@emotion/styled';
+import Skeleton from '@mui/material/Skeleton';
 
 export const SkeletonHeader = styled(Skeleton)`
   position: fixed;
