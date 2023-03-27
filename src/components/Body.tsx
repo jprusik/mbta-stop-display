@@ -9,10 +9,10 @@ import {
   ServiceAlertsContext,
   StopsContext
 } from 'contexts';
-import {SkeletonHeader, SkeletonArrivals} from 'Loaders';
-import {NextArrivalsContainer} from 'NextArrivalsContainer';
-import {ActionSteps} from 'ActionSteps';
-import {ServiceAlerts} from 'ServiceAlerts';
+import {SkeletonHeader, SkeletonArrivals} from 'components/Loaders';
+import {NextArrivalsContainer} from 'components/NextArrivalsContainer';
+import {ActionSteps} from 'components/ActionSteps';
+import {ServiceAlerts} from 'components/ServiceAlerts';
 
 export function Body(): JSX.Element {
   const {t} = useTranslation();
@@ -35,7 +35,7 @@ export function Body(): JSX.Element {
   const routeColor = routeAttributes?.color ?
     `#${routeAttributes.color}` : 'transparent';
   const routeTextColor = routeAttributes?.text_color ?
-    `#${routeAttributes.text_color}` : '#FFF';
+    `#${routeAttributes.text_color}` : '#FFFFFF';
 
   // Stop data
   // Note: more than one stop record may be returned if the place has

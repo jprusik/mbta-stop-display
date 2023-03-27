@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {ThemeProvider, createTheme} from '@mui/material/styles';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './index.css';
-import './i18n';
-import {App} from 'App';
-import {ContextProviders} from 'ContextProviders';
-import reportWebVitals from './reportWebVitals';
+import 'i18n';
+import reportWebVitals from 'reportWebVitals';
+import {App} from 'components/App';
+import {ContextProviders} from 'components/ContextProviders';
 
 const darkTheme = createTheme({
   // Globally disable MUI transitions
@@ -21,12 +21,12 @@ const darkTheme = createTheme({
       default: '#0A1929'
     },
     warning: {
-      main: '#ffc107',
-      dark: '#eeb400'
+      main: '#FFC107',
+      dark: '#EEB400'
     },
     info: {
-      main: '#2086d7',
-      dark: '#1769aa'
+      main: '#2086D7',
+      dark: '#1769AA'
     }
   },
 });

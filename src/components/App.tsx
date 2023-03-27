@@ -1,6 +1,6 @@
 import {Fragment} from 'react';
-import {Body} from 'Body';
-import {Footer} from 'Footer';
+import {Body} from 'components/Body';
+import {Footer} from 'components/Footer';
 
 export function App() {
   return (

@@ -12,9 +12,9 @@ import {
   SelectionsContext,
   StopsContext
 } from 'contexts';
-import {RouteSelect} from 'inputs/RouteSelect';
-import {RouteStopSelect} from 'inputs/RouteStopSelect';
-import {RouteTypeSelect} from 'inputs/RouteTypeSelect';
+import {RouteSelect} from 'components/inputs/RouteSelect';
+import {RouteStopSelect} from 'components/inputs/RouteStopSelect';
+import {RouteTypeSelect} from 'components/inputs/RouteTypeSelect';
 
 export function Footer (): JSX.Element {
   const {t} = useTranslation();

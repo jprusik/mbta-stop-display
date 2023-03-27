@@ -9,5 +9,5 @@ export const SelectionIndicator = styled(SouthRoundedIcon)`
   width: auto;
   height: 125px;
   text-align: center;
-  color: #d8493f;
+  color: #D8493F;
 `;

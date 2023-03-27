@@ -7,8 +7,8 @@ import {
   RouteAttributes,
   Schedule
 } from 'types';
-import {NextArrival} from 'NextArrival';
 import {getRelevantTimes} from 'utils';
+import {NextArrival} from 'components/NextArrival';
 
 type NextArrivalsContainerProps = {
   predictionsData: Prediction[] | undefined;

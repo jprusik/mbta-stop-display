@@ -8,7 +8,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {ServiceAlert} from 'ServiceAlert';
+import {ServiceAlert} from 'components/ServiceAlert';
 
 export function ServiceAlerts ({
   alerts

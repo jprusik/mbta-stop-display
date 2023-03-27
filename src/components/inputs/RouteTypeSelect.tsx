@@ -6,9 +6,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import {RouteTypeKeyName} from 'types';
 import {ActionHandlersContext} from 'contexts';
-import {RouteTypeIcon} from 'RouteTypeIcon';
-import {MenuItemValue} from 'inputs/MenuItemValue';
-import {SelectionIndicator} from 'inputs/SelectionIndicator';
+import {RouteTypeIcon} from 'components/RouteTypeIcon';
+import {MenuItemValue} from 'components/inputs/MenuItemValue';
+import {SelectionIndicator} from 'components/inputs/SelectionIndicator';
 
 type RouteTypeSelectProps = {
   selectedRouteType?: RouteTypeKeyName;

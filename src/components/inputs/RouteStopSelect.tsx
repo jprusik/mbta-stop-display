@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import {Stop, UseRouteStopData} from 'types';
 import {ActionHandlersContext} from 'contexts';
-import {SelectionIndicator} from 'inputs/SelectionIndicator';
+import {SelectionIndicator} from 'components/inputs/SelectionIndicator';
 
 type RouteStopSelectProps = {
   routeStops: UseRouteStopData;

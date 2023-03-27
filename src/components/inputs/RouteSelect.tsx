@@ -17,9 +17,9 @@ import {
   parseBusNumberStringForSort,
   routeTypeToRouteTypeKeyName
 } from 'utils';
-import {MenuItemValue} from 'inputs/MenuItemValue';
-import {SelectionIndicator} from 'inputs/SelectionIndicator';
-import {RouteIcon} from 'RouteIcon';
+import {MenuItemValue} from 'components/inputs/MenuItemValue';
+import {SelectionIndicator} from 'components/inputs/SelectionIndicator';
+import {RouteIcon} from 'components/RouteIcon';
 
 type RoutesByType = {
   [key: string]: Route[];
