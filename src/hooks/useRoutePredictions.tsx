@@ -1,19 +1,22 @@
 import {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
+  DataTypes,
   PredictionData,
-  ResponseError,
   Route,
   Stop,
   UsePredictionData
 } from 'types';
-import {API_KEY, REQUEST_DOMAIN} from '../constants';
+import {REQUEST_DOMAIN} from '../constants';
+import {get} from 'utils/data';
 
 export function useRoutePredictions (
   routeId?: Route['id'],
   routeStopId?: Stop['id']
 ): UsePredictionData {
+  const {t} = useTranslation();
   const [data, setData] = useState<PredictionData | null | undefined>(null);
-  const [error, setError] = useState<Error | ResponseError | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // @TODO use `fields` to reduce response data to only what is used in the app
@@ -27,47 +30,23 @@ export function useRoutePredictions (
   }
 
   useEffect(() => {
-    async function getRouteStopPredictions () {
-      const requestOptions = API_KEY ? {
-        headers: {
-          'x-api-key': API_KEY
-        }
-      } : {};
+    let unmounted = false;
 
-      const response = await fetch(
+    if (!unmounted && !data && !error && routeId && routeStopId) {
+      get ({
+        dataType: DataTypes.PREDICTION,
         requestURL,
-        requestOptions
-      );
-
-      const responseData = await response.json();
-
-      if (responseData.errors) {
-        // @TODO handle response errors
-        // {
-        //   "code": "bad_request",
-        //   "detail": "Invalid sort key.",
-        //   "source": {
-        //       "parameter": "sort"
-        //   },
-        //   "status": "400"
-        // }
-        setError(responseData.errors[0] as ResponseError);
-      } else {
-        setData(responseData);
-      }
-
-      setIsLoading(false);
+        setData,
+        setError,
+        setIsLoading,
+        t
+      });
     }
 
-    if (!data && !error && routeId && routeStopId) {
-      try {
-        getRouteStopPredictions();
-      } catch (error) {
-        setError(error as Error);
-        setIsLoading(false);
-      }
-    }
-  }, [data, error, isLoading, requestURL, routeId, routeStopId]);
+    return () => {
+      unmounted = true;
+    };
+  }, [t, data, error, requestURL, routeId, routeStopId]);
 
   return {
     data,

@@ -12,7 +12,7 @@ import {ScheduleContext, SelectionsContext} from 'contexts';
 export const PredictionsContext =
   createContext<UsePredictionData>({
     error: null,
-    isLoading: true,
+    isLoading: false,
     refetch: () => {}
   });
 

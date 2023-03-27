@@ -10,7 +10,7 @@ import {SelectionsContext} from 'contexts';
 export const ScheduleContext =
   createContext<UseRouteScheduleData>({
     error: null,
-    isLoading: true,
+    isLoading: false,
     refetch: () => {}
   });
 

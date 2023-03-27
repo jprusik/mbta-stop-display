@@ -6,7 +6,7 @@ import {SelectionsContext} from 'contexts';
 export const ServiceAlertsContext =
   createContext<UseServiceAlertsData>({
     error: null,
-    isLoading: true,
+    isLoading: false,
     refetch: () => {}
   });
 

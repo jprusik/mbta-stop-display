@@ -11,6 +11,7 @@ import 'i18n';
 import reportWebVitals from 'reportWebVitals';
 import {App} from 'components/App';
 import {ContextProviders} from 'components/ContextProviders';
+import {TranslatedErrorBoundary as ErrorBoundary} from 'components/ErrorBoundary';
 
 const darkTheme = createTheme({
   // Globally disable MUI transitions
@@ -40,9 +41,11 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <ContextProviders>
-        <App />
-      </ContextProviders>
+      <ErrorBoundary>
+        <ContextProviders>
+          <App />
+        </ContextProviders>
+      </ErrorBoundary>
     </ThemeProvider>
   </React.StrictMode>
 );

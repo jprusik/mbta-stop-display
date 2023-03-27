@@ -15,7 +15,37 @@
     "no_arrival_information": "No arrival information for this stop was found.",
     "no_route_stops": "There are no stops for this route.",
     "no_routes_information": "The routes information was unable to load.",
-    "no_stop_information": "The information for this stop was unable to load."
+    "no_stop_information": "The information for this stop was unable to load.",
+    "prompt_report_error_information": "If you continue to see this error, please <0>report it as an issue</0>.",
+    "prompt_try_again": "Please refresh the page, or try again later.",
+    "request": {
+      "alert": {
+        "bad": "The alerts request was malformed.",
+        "forbidden": "The alerts request was rejected.",
+        "generic_problem": "There was a problem with the alerts request."
+      },
+      "prediction": {
+        "bad": "The route predictions request was malformed.",
+        "forbidden": "The route predictions request was rejected.",
+        "generic_problem": "There was a problem with the route predictions request."
+      },
+      "route": {
+        "bad": "The routes request was malformed.",
+        "forbidden": "The routes request was rejected.",
+        "generic_problem": "There was a problem with the routes request."
+      },
+      "schedule": {
+        "bad": "The route schedule request was malformed.",
+        "forbidden": "The route schedule request was rejected.",
+        "generic_problem": "There was a problem with the route schedule request."
+      },
+      "stop": {
+        "bad": "The route stops request was malformed.",
+        "forbidden": "The route stops request was rejected.",
+        "generic_problem": "There was a problem with the route stops request."
+      },
+      "rate_limited": "You have made too many requests in a short period of time. Please wait a minute and try again."
+    }
   },
   "input": {
     "all_label": "All",

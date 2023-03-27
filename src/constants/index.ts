@@ -8,4 +8,6 @@ to user clients! See notes in the included `.env.example` file.
 */
 export const API_KEY = process.env.REACT_APP_API_KEY;
 
-export const REQUEST_DOMAIN = `https://api-v3.mbta.com`
+export const REQUEST_DOMAIN = 'https://api-v3.mbta.com';
+
+export const ISSUE_REPORTING_URL = 'https://github.com/jprusik/mbta-stop-display/issues';

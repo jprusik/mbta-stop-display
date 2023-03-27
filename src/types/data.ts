@@ -1,5 +1,11 @@
+enum ResponseErrorCode {
+  BAD_REQUEST = 'bad_request',
+  FORBIDDEN = 'forbidden',
+  RATE_LIMITED = 'rate_limited'
+}
+
 export type ResponseError = {
-  code: string;
+  code: ResponseErrorCode;
   detail: string;
   source: {
     parameter: string;

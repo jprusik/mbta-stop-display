@@ -10,7 +10,7 @@ import {SelectionsContext} from 'contexts';
 export const StopsContext =
   createContext<UseRouteStopData>({
     error: null,
-    isLoading: true,
+    isLoading: false,
     refetch: () => {}
   });
 

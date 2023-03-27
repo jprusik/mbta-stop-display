@@ -68,6 +68,10 @@ export function Body(): JSX.Element {
     routeStops.error ||
     schedule.error;
 
+  if (dataHasErrored) {
+    throw dataHasErrored;
+  }
+
   return (
     <Container>
       {!selectedRouteType ? (
@@ -82,9 +86,6 @@ export function Body(): JSX.Element {
           <SkeletonArrivals variant="rounded" />
           <SkeletonArrivals variant="rounded" />
         </Fragment>
-      ) : dataHasErrored ? (
-        // @TODO better error feedback/messaging
-        <CenterMessage>{t('error.generic')}</CenterMessage>
       ) : (
         <Fragment>
           <Header
@@ -122,10 +123,6 @@ const Header = styled.h1<HeaderProps>`
   line-height: 1em;
   font-size: 32px;
   font-size: 4.75vmin;
-`;
-
-const CenterMessage = styled.div`
-  margin: 40vh auto;
 `;
 
 const Container = styled.div`

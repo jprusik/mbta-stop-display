@@ -5,7 +5,7 @@ import {useRoutes} from 'hooks';
 export const RoutesContext =
   createContext<UseRoutesData>({
     error: null,
-    isLoading: true,
+    isLoading: false,
     refetch: () => {}
   });
 
