@@ -79,8 +79,8 @@ export function RouteSelect({
     }
 
     /*
-      Because the bus numbers are returned as strings, the API doesn't sort
-      the number values properly (e.g. "109", "11", "110").
+      Because the bus numbers are returned as strings, the API doesn't
+      sort the number values properly (e.g. "109", "11", "110").
 
       Also, not all values are composed solely of numerical characters
       (e.g. "62/76", 34E", "SL1", "CT2"). See `parseBusNumberString`

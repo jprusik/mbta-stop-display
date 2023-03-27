@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@mui/material/styles';
 import {
-  AlertEffect,
-  AlertLifecycle,
-  ServiceAlertAttributes
+  ServiceAlertAttributes,
+  ServiceAlertEffect,
+  ServiceAlertLifecycle
 } from 'types';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -14,26 +14,26 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const HIGHLIGHTED_LIFECYCLES = [
-  AlertLifecycle.NEW,
-  AlertLifecycle.ONGOING,
-  AlertLifecycle.ONGOING_UPCOMING
+  ServiceAlertLifecycle.NEW,
+  ServiceAlertLifecycle.ONGOING,
+  ServiceAlertLifecycle.ONGOING_UPCOMING,
 ];
 
 const HIGHLIGHTED_EFFECTS = [
-  AlertEffect.CANCELLATION,
-  AlertEffect.DELAY,
-  AlertEffect.DETOUR,
-  AlertEffect.MODIFIED_SERVICE,
-  AlertEffect.NO_SERVICE,
-  AlertEffect.SCHEDULE_CHANGE,
-  AlertEffect.SHUTTLE,
-  AlertEffect.SNOW_ROUTE,
-  AlertEffect.STATION_CLOSURE,
-  AlertEffect.STOP_CLOSURE,
-  AlertEffect.STOP_MOVE,
-  AlertEffect.STOP_MOVED,
-  AlertEffect.SUSPENSION,
-  AlertEffect.TRACK_CHANGE,
+  ServiceAlertEffect.CANCELLATION,
+  ServiceAlertEffect.DELAY,
+  ServiceAlertEffect.DETOUR,
+  ServiceAlertEffect.MODIFIED_SERVICE,
+  ServiceAlertEffect.NO_SERVICE,
+  ServiceAlertEffect.SCHEDULE_CHANGE,
+  ServiceAlertEffect.SHUTTLE,
+  ServiceAlertEffect.SNOW_ROUTE,
+  ServiceAlertEffect.STATION_CLOSURE,
+  ServiceAlertEffect.STOP_CLOSURE,
+  ServiceAlertEffect.STOP_MOVE,
+  ServiceAlertEffect.STOP_MOVED,
+  ServiceAlertEffect.SUSPENSION,
+  ServiceAlertEffect.TRACK_CHANGE,
 ]
 
 export function ServiceAlert ({
