@@ -23,7 +23,13 @@ export const DialogSection = styled.div`
   }
 
   > h3 {
+    display: flex;
+    align-items: center;
     margin: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+    > svg {
+      margin-right: 4px;
+    }
   }
 `;
