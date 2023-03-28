@@ -95,7 +95,11 @@ export function ServiceAlert ({
               palette.info.dark : null
             }
           >
-            <a href={attributes.url} target="_blank" rel="noreferrer">
+            <a
+              href={attributes.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t('action_prompt.additional_information_link')}
             </a>
             <OpenInNewIcon

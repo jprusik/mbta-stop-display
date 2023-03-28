@@ -13,3 +13,4 @@ export const REQUEST_DOMAIN = 'https://api-v3.mbta.com';
 export const ISSUE_REPORTING_URL = 'https://github.com/jprusik/mbta-stop-display/issues';
 export const APP_CODE_URL = 'https://github.com/jprusik/mbta-stop-display';
 export const APP_AUTHOR_URL = 'https://www.jonathanprusik.com';
+export const APP_AUTHOR_EMAIL = 'jprusik@classynemesis.com';

@@ -4,6 +4,8 @@
     "additional_information_link": "Additional information",
     "close": "Close",
     "code_link": "Code",
+    "legal_link": "Legal",
+    "privacy_link": "Privacy",
     "reset": "Reset",
     "select_route_short": "Select a route",
     "select_route_type_short": "Select a route type",
@@ -11,6 +13,7 @@
     "select_route": "Please select a route.",
     "select_stop_short": "Select a stop",
     "select_stop": "Please select a route stop.",
+    "support_link": "Support",
     "toggle_hide": "Hide",
     "toggle_show": "Show"
   },
@@ -85,20 +88,32 @@
     "untranslated_api_override": "{{untranslatedPassthrough}}"
   },
   "content": {
-    "about_title": "About",
     "about_section_app": {
-      "title": "About the App",
+      "title": "The App",
       "body": "This web app leverages the <0>MBTA API</0> to select and display relevant information for a given public transit stop. Its goal is to provide a simple, but useful interface for dedicated-purpose displays.",
       "body_link": "The code for this project can be found at: \n<0>{{appCodeUrl}}</0>"
     },
     "about_section_author": {
-      "title": "About the Author",
-      "body": "My name is <0>Jonathan Prusik</0>, and I'm a Boston-based full-stack software engineer. I like building things that people will use and find useful.",
+      "title": "The Author",
+      "body": "I'm <0>Jonathan Prusik</0>, a Boston-based full-stack software engineer. I like building things that people will use and find useful.",
       "body_link": "I can be contacted via <0>LinkedIn</0> and <1>e-mail</1>."
     },
-    "about_section_legal": {
-      "title": "Legal",
+    "about_title": "About",
+    "legal_section_rights": {
       "body": "All rights reserved for original content and code by Jonathan Prusik.\n\nThis website and project are not affiliated with the MBTA in any way. All MBTA icons and logos are trademarks of the MBTA."
-    }
+    },
+    "legal_title": "Legal",
+    "privacy_section_policy": {
+      "title": "Privacy Policy",
+      "body_open": "This web app does not collect information on any of its visitors except in the following circumstances:",
+      "body_list_google_analytics": "This app uses Google Analytics. Data collected via Google Analytics is used to analyze site performance, prioritize features, and enhance user experience. If you'd like to not be tracked via Google Analytics, consider using a browser extension like <0>Google Analytics Opt-out Browser Add-on</0>. I personally like <1>Privacy Badger</1>, but there are plenty of options out there.",
+      "body_close": "Except in the circumstances listed above or when required by law, this web app does not actively share user data with third parties.\n\nYour online privacy is actually really important to me. If you have ideas, concerns, or questions about anything on this page, please feel free to <0>e-mail me</0>.\n\nWhile you're at it, <1>consider donating to Electronic Frontier Foundation</1> and supporting all the good work they do for the Internet and its users."
+    },
+    "privacy_section_advertising": {
+      "title": "Advertising",
+      "body": "This web app does not currently run any ads or participate in any affiliate programs. If it ever does, those programs will be listed here and this policy will be updated appropriately."
+    },
+    "privacy_last_updated": "Last Updated: March 28, 2023",
+    "privacy_title": "Privacy"
   }
 }

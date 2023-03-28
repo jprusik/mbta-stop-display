@@ -4,28 +4,54 @@ import styled from '@emotion/styled/macro';
 import {useTheme, Palette} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import {APP_CODE_URL} from '../constants';
-import {AboutDialog} from 'components/AboutDialog';
+import {AboutDialog} from 'components/modals/AboutDialog';
+import {PrivacyDialog} from 'components/modals/PrivacyDialog';
+import {LegalDialog} from 'components/modals/LegalDialog';
+
+const DIALOG_IDS = {
+  ABOUT: 'about',
+  PRIVACY: 'privacy',
+  LEGAL: 'legal'
+}
 
 export function AppDetailsNav (): JSX.Element {
   const {t} = useTranslation();
-  const [aboutIsOpen, setAboutIsOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState<string | undefined>();
   const {palette} = useTheme();
 
   return (
     <Fragment>
       <AboutDialog
-        handleDismiss={() => setAboutIsOpen(false)}
-        isOpen={aboutIsOpen}
+        handleDismiss={() => setOpenDialog(undefined)}
+        isOpen={openDialog === DIALOG_IDS.ABOUT}
+      />
+      <PrivacyDialog
+        handleDismiss={() => setOpenDialog(undefined)}
+        isOpen={openDialog === DIALOG_IDS.PRIVACY}
+      />
+      <LegalDialog
+        handleDismiss={() => setOpenDialog(undefined)}
+        isOpen={openDialog === DIALOG_IDS.LEGAL}
       />
       <Container textColor={palette.text.disabled}>
         <TextButton
-          onClick={() => setAboutIsOpen(true)}
+          onClick={() => setOpenDialog(DIALOG_IDS.ABOUT)}
         >
           {t('action_prompt.about_link')}
         </TextButton>
+        <TextButton
+          onClick={() => setOpenDialog(DIALOG_IDS.PRIVACY)}
+        >
+          {t('action_prompt.privacy_link')}
+        </TextButton>
+        <TextButton
+          onClick={() => setOpenDialog(DIALOG_IDS.LEGAL)}
+        >
+          {t('action_prompt.legal_link')}
+        </TextButton>
         <a
           href={APP_CODE_URL}
-          rel="noreferrer"
+          rel="noopener noreferrer"
           target="_blank"
         >
           {t('action_prompt.code_link')}
