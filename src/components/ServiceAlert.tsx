@@ -96,7 +96,7 @@ export function ServiceAlert ({
             }
           >
             <a href={attributes.url} target="_blank" rel="noreferrer">
-              {t('state.additional_information_link')}
+              {t('action_prompt.additional_information_link')}
             </a>
             <OpenInNewIcon
               sx={{

@@ -1,5 +1,9 @@
 {
   "action_prompt": {
+    "about_link": "About",
+    "additional_information_link": "Additional information",
+    "close": "Close",
+    "code_link": "Code",
     "reset": "Reset",
     "select_route_short": "Select a route",
     "select_route_type_short": "Select a route type",
@@ -44,7 +48,7 @@
         "forbidden": "The route stops request was rejected.",
         "generic_problem": "There was a problem with the route stops request."
       },
-      "rate_limited": "You have made too many requests in a short period of time. Please wait a minute and try again."
+      "rate_limited": "You have made too many requests in a short period of time."
     }
   },
   "input": {
@@ -58,7 +62,6 @@
     "train_label": "Train"
   },
   "state": {
-    "additional_information_link": "Additional information",
     "arrival_and_departure_bus_prediction": "The bus will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
     "arrival_and_departure_bus_schedule": "The bus is scheduled to arrive in {{arrivalTime}} and leave in {{departureTime}}.",
     "arrival_and_departure_ferry_prediction": "The ferry will arrive in {{arrivalTime}} and will be leaving in {{departureTime}}.",
@@ -80,5 +83,22 @@
     "service_alerts_count": "Service alerts ({{alertsCount}})",
     "stop_title": "{{routeDescription}} ({{routeLongName}}) at {{stopName}}",
     "untranslated_api_override": "{{untranslatedPassthrough}}"
+  },
+  "content": {
+    "about_title": "About",
+    "about_section_app": {
+      "title": "About the App",
+      "body": "This web app leverages the <0>MBTA API</0> to select and display relevant information for a given public transit stop. Its goal is to provide a simple, but useful interface for dedicated-purpose displays.",
+      "body_link": "The code for this project can be found at: \n<0>{{appCodeUrl}}</0>"
+    },
+    "about_section_author": {
+      "title": "About the Author",
+      "body": "My name is <0>Jonathan Prusik</0>, and I'm a Boston-based full-stack software engineer. I like building things that people will use and find useful.",
+      "body_link": "I can be contacted via <0>LinkedIn</0> and <1>e-mail</1>."
+    },
+    "about_section_legal": {
+      "title": "Legal",
+      "body": "All rights reserved for original content and code by Jonathan Prusik.\n\nThis website and project are not affiliated with the MBTA in any way. All MBTA icons and logos are trademarks of the MBTA."
+    }
   }
 }

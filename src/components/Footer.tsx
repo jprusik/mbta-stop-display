@@ -190,7 +190,7 @@ const FooterContainer = styled.div<{footerIsOpen: boolean;}>`
   ${({footerIsOpen}) => `
     display: flex;
     position: fixed;
-    bottom: ${footerIsOpen ? '0' : '-30px'};
+    bottom: ${footerIsOpen ? '0' : '-15px'};
     justify-content: flex-start;
     margin: 0 auto;
     border-top: 1px solid #666;
