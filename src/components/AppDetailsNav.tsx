@@ -88,7 +88,7 @@ const Container = styled.div<{
   right: 0;
   bottom: 0;
   align-items: center;
-  padding: 0 6px 4px 0;
+  padding: 0 6px 2px 0;
 
   > a,
   > ${TextButton} {

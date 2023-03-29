@@ -28,7 +28,8 @@ export function useRoutes (): UseRoutesData {
         setData,
         setError,
         setIsLoading,
-        t
+        t,
+        useLocalCache: true
       });
     }
 

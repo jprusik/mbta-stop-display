@@ -37,7 +37,8 @@ export function useRouteStops (
         setData,
         setError,
         setIsLoading,
-        t
+        t,
+        useLocalCache: true
       });
     }
   }, [t, data, error, routeId, requestURL]);

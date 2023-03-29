@@ -37,7 +37,8 @@ export function useRouteSchedule (
         setData,
         setError,
         setIsLoading,
-        t
+        t,
+        useLocalCache: true
       });
     }
 
