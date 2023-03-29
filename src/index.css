@@ -17,6 +17,10 @@ body {
   font-size: calc(10px + 2vmin);
 }
 
+noscript {
+  margin: 20px auto 0 auto;
+}
+
 a {
   color: #61DAFB;
 }
