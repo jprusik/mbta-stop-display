@@ -27,6 +27,7 @@ export function BaseDialog({
     <Dialog
       aria-labelledby="responsive-dialog-title"
       fullScreen={fullScreen}
+      keepMounted
       onClose={handleDismiss}
       open={isOpen}
       scroll="paper"
