@@ -1,6 +1,6 @@
 {
-  "short_name": "MBTA Stop Display",
-  "name": "MBTA Stop Display",
+  "short_name": "TransitFind",
+  "name": "TransitFind: MBTA Stop Information",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,5 +11,21 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#FFFFFF"
+  "background_color": "#FFFFFF",
+  "screenshots" : [
+    {
+      "src": "app_example_screen_desktop.png",
+      "sizes": "851x719",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "An example of a stop display on a desktop device."
+    },
+    {
+      "src": "app_example_screen_mobile.png",
+      "sizes": "720x1255",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "An example of a stop display on a mobile device."
+    }
+  ]
 }
