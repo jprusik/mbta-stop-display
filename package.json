@@ -1,6 +1,6 @@
 {
   "name": "mbta-stop-display",
-  "homepage": "https://jprusik.github.io/mbta-stop-display",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
