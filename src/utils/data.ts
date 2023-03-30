@@ -68,6 +68,15 @@ export async function get ({
         errorMesage = t(`error.request.${dataType}.forbidden`);
         break;
       case 'rate_limited':
+        /*
+        @TODO let the user know how long they need to wait. May need to
+        reach our to the API maintainers; see:
+
+        https://stackoverflow.com/questions/70729764/api-hosts-rate-limit-header-not-read-properly#comment125042213_70729764 :
+        "The server needs to send the `Access-Control-Expose-Headers:
+        x-ratelimit` alongside the `x-ratelimit: somevalue` to allow a cors
+        client to read the ratelimit value."
+        */
         errorMesage = t(`error.request.rate_limited`);
         break;
       default:

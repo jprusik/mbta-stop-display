@@ -1,8 +1,10 @@
 import moment from 'moment';
 import {
   DataTypes,
+  LineColors,
   Prediction,
   PredictionAttributes,
+  Route,
   RouteAttributes,
   RouteTypeKeyName,
   Schedule,
@@ -10,6 +12,7 @@ import {
   VehicleType,
   VehicleTypeKeyName
 } from 'types';
+import {RouteIcon} from 'components/RouteIcon';
 
 type RelevantArrivals = {
   [key: string]: Prediction | Schedule;
@@ -184,4 +187,37 @@ export function parseBusNumberStringForSort (
 
   // Parse the string into base 10 integer for comparison in sorting.
   return parseInt(numberString, 10);
+}
+
+export function updateWindowTitleAndIcon (
+  newTitle: string,
+  color?: LineColors,
+  routeId?: Route['id']
+): void {
+  // Update the window/tab title
+  document.title = newTitle;
+
+  // We're only modifying the first (primary) `icon` <link>
+  let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+
+  // This is mostly for safety / to satisfy TypeScript;
+  // the head `link`s are in the index HTML doc
+  if (!link) {
+    link = document.createElement('link') as HTMLLinkElement;
+    link.rel = 'icon';
+    link.type = 'image/svg+xml';
+    document.head.appendChild(link);
+  }
+
+  if (color) {
+    const iconPath = RouteIcon(color, routeId);
+
+    if (iconPath) {
+      link.href = iconPath;
+    }
+  } else {
+    // If no color is provided use the app favicon
+      link.type = 'image/png';
+      link.href = `${process.env.PUBLIC_URL}/favicon.png`;
+  }
 }

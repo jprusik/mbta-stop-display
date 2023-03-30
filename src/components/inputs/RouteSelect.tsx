@@ -19,7 +19,7 @@ import {
 } from 'utils';
 import {MenuItemValue} from 'components/inputs/MenuItemValue';
 import {SelectionIndicator} from 'components/inputs/SelectionIndicator';
-import {RouteIcon} from 'components/RouteIcon';
+import {RouteIconComponent} from 'components/RouteIcon';
 
 type RoutesByType = {
   [key: string]: Route[];
@@ -151,7 +151,7 @@ export function RouteSelect({
             <MenuItemValue>
               {allRouteTypesIsSelected ?
                 `(${attributes.description}) ` : (
-                  <RouteIcon
+                  <RouteIconComponent
                     color={attributes.color}
                     id={id}
                   />

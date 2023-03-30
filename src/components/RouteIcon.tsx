@@ -1,74 +1,126 @@
 import {LineColors, Route} from 'types';
-import {
-  ReactComponent as IconBlueLine
+
+// Direct import of SVGs for path referencing,
+// SVGs as components for usage with JSX
+import IconBlueLine, {
+  ReactComponent as IconBlueLineComponent
 } from 'images/icon-blue-line.svg';
-import {
-  ReactComponent as IconGreenLine
+import IconGreenLine, {
+  ReactComponent as IconGreenLineComponent
 } from 'images/icon-green-line.svg';
-import {
-  ReactComponent as IconGreenLineB
+import IconGreenLineB, {
+  ReactComponent as IconGreenLineBComponent
 } from 'images/icon-green-line-b.svg';
-import {
-  ReactComponent as IconGreenLineC
+import IconGreenLineC, {
+  ReactComponent as IconGreenLineCComponent
 } from 'images/icon-green-line-c.svg';
-import {
-  ReactComponent as IconGreenLineD
+import IconGreenLineD, {
+  ReactComponent as IconGreenLineDComponent
 } from 'images/icon-green-line-d.svg';
-import {
-  ReactComponent as IconGreenLineE
+import IconGreenLineE, {
+  ReactComponent as IconGreenLineEComponent
 } from 'images/icon-green-line-e.svg';
-import {
-  ReactComponent as IconMattapanLine
+import IconMattapanLine, {
+  ReactComponent as IconMattapanLineComponent
 } from 'images/icon-mattapan-line.svg';
-import {
-  ReactComponent as IconOrangeLine
+import IconOrangeLine, {
+  ReactComponent as IconOrangeLineComponent
 } from 'images/icon-orange-line.svg';
-import {
-  ReactComponent as IconRedLine
+import IconRedLine, {
+  ReactComponent as IconRedLineComponent
 } from 'images/icon-red-line.svg';
-import {
-  ReactComponent as IconSilverLine
+import IconSilverLine, {
+  ReactComponent as IconSilverLineComponent
 } from 'images/icon-silver-line.svg';
 
-function RedLineIcon({id}: {id: Route['id']}) {
+enum GreenLineBranches {
+  GREEN_B = "GREEN-B",
+  GREEN_C = "GREEN-C",
+  GREEN_D = "GREEN-D",
+  GREEN_E = "GREEN-E"
+}
+
+enum RedLineBranches {
+  MATTAPAN = "MATTAPAN"
+}
+
+function RedLineIconComponent({id}: {id: Route['id']}) {
   switch (id?.toUpperCase()) {
-    case 'MATTAPAN':
-      return <IconMattapanLine />
+    case RedLineBranches.MATTAPAN:
+      return (<IconMattapanLineComponent />);
     default:
-      return <IconRedLine />
+      return (<IconRedLineComponent />);
   }
 }
 
-function GreenLineIcon({id}: {id: Route['id']}) {
+function GreenLineIconComponent({id}: {id: Route['id']}) {
   switch (id?.toUpperCase()) {
-    case 'GREEN-B':
-      return <IconGreenLineB />
-    case 'GREEN-C':
-      return <IconGreenLineC />
-    case 'GREEN-D':
-      return <IconGreenLineD />
-    case 'GREEN-E':
-      return <IconGreenLineE />
+    case GreenLineBranches.GREEN_B:
+      return (<IconGreenLineBComponent />);
+    case GreenLineBranches.GREEN_C:
+      return (<IconGreenLineCComponent />);
+    case GreenLineBranches.GREEN_D:
+      return (<IconGreenLineDComponent />);
+    case GreenLineBranches.GREEN_E:
+      return (<IconGreenLineEComponent />);
     default:
-      return <IconGreenLine />
+      return (<IconGreenLineComponent />);
   }
 }
 
-export function RouteIcon ({
+// Return the SVG as a component
+export function RouteIconComponent ({
   color,
   id
 }: {color?: LineColors, id: Route['id']}): JSX.Element | null {
   switch (color?.toUpperCase()) {
     case LineColors.BLUE:
-      return <IconBlueLine />
+      return (<IconBlueLineComponent />);
     case LineColors.GREEN:
-      return <GreenLineIcon id={id} />
+      return (<GreenLineIconComponent id={id} />);
     case LineColors.RED:
-      return <RedLineIcon id={id} />
+      return (<RedLineIconComponent id={id} />);
     case LineColors.ORANGE:
-      return <IconOrangeLine />
+      return (<IconOrangeLineComponent />);
     case LineColors.SILVER:
-      return <IconSilverLine />
+      return (<IconSilverLineComponent/>);
+    default:
+      return null;
+  }
+}
+
+// Return the SVG Path
+export function RouteIcon (
+  color: LineColors,
+  routeId?: Route['id']
+): string | null {
+  switch (color.toUpperCase()) {
+    case LineColors.BLUE:
+      return IconBlueLine;
+    case LineColors.GREEN:
+      switch (routeId?.toUpperCase()) {
+        case GreenLineBranches.GREEN_B:
+          return IconGreenLineB;
+        case GreenLineBranches.GREEN_C:
+          return IconGreenLineC;
+        case GreenLineBranches.GREEN_D:
+          return IconGreenLineD;
+        case GreenLineBranches.GREEN_E:
+          return IconGreenLineE;
+        default:
+          return IconGreenLine;
+      }
+    case LineColors.RED:
+      switch (routeId?.toUpperCase()) {
+        case RedLineBranches.MATTAPAN:
+          return IconMattapanLine;
+        default:
+          return IconRedLine;
+      }
+    case LineColors.ORANGE:
+      return IconOrangeLine;
+    case LineColors.SILVER:
+      return IconSilverLine;
     default:
       return null;
   }

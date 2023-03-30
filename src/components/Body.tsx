@@ -1,4 +1,4 @@
-import {Fragment, useContext, useMemo} from 'react';
+import {Fragment, useContext, useEffect, useMemo} from 'react';
 import styled from '@emotion/styled';
 import {useTranslation} from 'react-i18next';
 import {
@@ -9,6 +9,7 @@ import {
   ServiceAlertsContext,
   StopsContext
 } from 'contexts';
+import {updateWindowTitleAndIcon} from 'utils';
 import {SkeletonHeader, SkeletonArrivals} from 'components/Loaders';
 import {NextArrivalsContainer} from 'components/NextArrivalsContainer';
 import {ActionSteps} from 'components/ActionSteps';
@@ -55,6 +56,20 @@ export function Body(): JSX.Element {
       stopName: stopData?.name
     }) :
     t('error.no_stop_information');
+  const appTitle = t('content.website_title_with_description');
+
+  useEffect(() => {
+    // Update window/tab title to match the stop title
+    if (selectedRouteStop && routeAttributes?.color) {
+      updateWindowTitleAndIcon(
+        `${stopTitle} | ${appTitle}`,
+        routeAttributes.color,
+        selectedRouteStop
+      );
+    } else {
+      updateWindowTitleAndIcon(appTitle);
+    }
+  }, [t, appTitle, routeAttributes, selectedRouteStop, stopTitle]);
 
   const dataIsLoading =
     predictions.isLoading ||
@@ -88,12 +103,12 @@ export function Body(): JSX.Element {
         </Fragment>
       ) : (
         <Fragment>
-          <Header
+          <RouteStopBanner
             backgroundColor={routeColor}
             textColor={routeTextColor}
           >
             {stopTitle}
-          </Header>
+          </RouteStopBanner>
           {!!serviceAlerts?.data?.data?.length && (
             <ServiceAlerts alerts={serviceAlerts?.data?.data} />
           )}
@@ -108,12 +123,12 @@ export function Body(): JSX.Element {
   );
 }
 
-type HeaderProps = {
+type RouteStopBannerProps = {
   backgroundColor: string;
   textColor: string;
 }
 
-const Header = styled.h1<HeaderProps>`
+const RouteStopBanner = styled.h1<RouteStopBannerProps>`
   ${({backgroundColor, textColor}) => `
     background-color: ${backgroundColor};
     color: ${textColor};
