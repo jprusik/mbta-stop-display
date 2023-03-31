@@ -69,8 +69,9 @@ export async function get ({
         break;
       case 'rate_limited':
         /*
-        @TODO let the user know how long they need to wait. May need to
-        reach our to the API maintainers; see:
+        @TODO let the user know how long they need to wait with
+        `x-ratelimit-reset`. May need to reach our to the API maintainers;
+        see:
 
         https://stackoverflow.com/questions/70729764/api-hosts-rate-limit-header-not-read-properly#comment125042213_70729764 :
         "The server needs to send the `Access-Control-Expose-Headers:
@@ -100,8 +101,8 @@ function setRequestCache(response: Response): void {
       // do not cache JSON response if there was a service error
       if (response.ok && responseJSON.data) {
         localStorage.setItem(requestPath, JSON.stringify({
-          datetime: Date.now(),
-          ...responseJSON
+          ...responseJSON,
+          datetime: Date.now()
         }));
       }
     });
