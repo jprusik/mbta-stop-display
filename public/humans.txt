@@ -1,0 +1,20 @@
+/* TEAM */
+  Developer: Jonathan Prusik
+  Contact: jprusik [at] classynemesis.com
+  GitHub: @jprusik
+  Location: Boston, Massachusetts, United States
+
+/* THANKS */
+
+  Data and API: The MBTA team
+  Twitter: @MBTA
+  Website: https://www.mbta.com/
+  Location: Massachusetts Bay Area, United States
+
+  Icon Author: Caro Asercion
+
+/* SITE */
+  Last update: 2023/03/31
+  Language: English
+  Doctype: HTML5
+  IDE: Visual Studio Code,
