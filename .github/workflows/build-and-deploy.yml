@@ -34,6 +34,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: create env file
+        run: |
+          touch .env
+          echo REACT_APP_DATA_REFETCH_INTERVAL=${{ vars.REACT_APP_DATA_REFETCH_INTERVAL }} >> .env
+          echo REACT_APP_GA_ID=${{ vars.REACT_APP_GA_ID }} >> .env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:

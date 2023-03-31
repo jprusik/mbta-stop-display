@@ -14,6 +14,9 @@ import {
 } from 'types';
 import {RouteIcon} from 'components/RouteIcon';
 
+export * from 'utils/analytics';
+export * from 'utils/data';
+
 type RelevantArrivals = {
   [key: string]: Prediction | Schedule;
 }

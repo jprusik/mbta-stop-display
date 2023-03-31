@@ -12,12 +12,6 @@ export const RoutesContext =
 export function RoutesProvider (
   {children}: PropsWithChildren
 ): JSX.Element {
-  /*
-  We need to fetch schedule data separately since it is unavailable
-  as an include on predictions if no predictions are returned. Also,
-  for now we won't refetch the schedule data since it's not likely
-  to change frequently.
-  */
   const routes = useRoutes();
 
   return (

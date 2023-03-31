@@ -110,7 +110,7 @@ const Container = styled.div<{
       color: #A0CBF5;
 
       .favoriteIcon {
-        color: #ED143D;
+        color: #DB61A2;
       }
     }
 
